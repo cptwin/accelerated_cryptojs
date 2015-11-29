@@ -37,7 +37,24 @@ function mainInit() {
     camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     camera.position.z = 1;
     //renderer = new THREE.WebGLRenderer();
-    renderer = Detector.webgl? new THREE.WebGLRenderer(): new THREE.CanvasRenderer();
+    //renderer = Detector.webgl? new THREE.WebGLRenderer(): new THREE.CanvasRenderer();
+    if ( webglAvailable() ) {
+            renderer = new THREE.WebGLRenderer();
+    } else {
+            renderer = new THREE.CanvasRenderer();
+    }
+}
+
+function webglAvailable() {
+        try {
+                var canvas = document.createElement( 'canvas' );
+                return !!( window.WebGLRenderingContext && (
+                        canvas.getContext( 'webgl' ) ||
+                        canvas.getContext( 'experimental-webgl' ) )
+                );
+        } catch ( e ) {
+                return false;
+        }
 }
 
 function initGeometry() {
