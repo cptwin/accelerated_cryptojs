@@ -28,10 +28,10 @@ function init() {
 }
 
 function mainInit() {
-    //height = window.innerWidth - 5;
-    //width = window.innerHeight - 5;
-    height = 640;
-    width = 480;
+    height = window.innerWidth - 5;
+    width = window.innerHeight - 5;
+    //height = 640;
+    //width = 480;
     scene = new THREE.Scene();
     scene2 = new THREE.Scene()
     camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
