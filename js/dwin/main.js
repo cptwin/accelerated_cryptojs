@@ -37,6 +37,10 @@ function mainInit() {
     camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     camera.position.z = 1;
     renderer = new THREE.WebGLRenderer();
+    if(typeof renderer === 'undefined')
+    {
+        addToConsole("ThreeJS or OpenGL Not Supported!");
+    }
 }
 
 function initGeometry() {
