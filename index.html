@@ -80,7 +80,7 @@ and open the template in the editor.
         //create();
         
         var render = function () {
-            window.setTimeout( function() { requestAnimationFrame(simulate); }, 5000 );
+            window.setTimeout( function() { requestAnimationFrame(render); }, 5000 );
             create();
             renderer.render(scene2, camera);
         }
