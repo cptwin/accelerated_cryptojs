@@ -13,6 +13,7 @@ and open the template in the editor.
         <link rel="stylesheet" href="style.css">
         <script src="js/three.js"></script>
         <script src="js/dwin/main.js"></script>
+        <script src="js/dwin/logging.js"></script>
         
         <script src="js/dwin/shaders/vertexShader.js"></script>
         <script src="js/dwin/shaders/fragmentShader1.js"></script>
@@ -21,12 +22,7 @@ and open the template in the editor.
     </head>
     <body>
         <script>
-            (function(){
-                var buf = new Uint8Array(2);
-                window.crypto.getRandomValues(buf);
-                //alert(buf[0]);
-                //alert(buf[1]);
-              })();
+            
         init();
         
         function create()
@@ -88,6 +84,11 @@ and open the template in the editor.
         
         render();
 
+        </script>
+        <div class="logging" id="logging"></div>
+        <script>
+            initLogging();
+            addToConsole("Random Number = " + generateRandomNumber());
         </script>
     </body>
 </html>

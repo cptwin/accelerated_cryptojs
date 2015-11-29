@@ -28,8 +28,8 @@ function init() {
 }
 
 function mainInit() {
-    height = window.innerWidth - 5;
-    width = window.innerHeight - 5;
+    height = window.innerWidth;
+    width = (window.innerHeight * 0.9).toFixed(0);
     //height = 640;
     //width = 480;
     scene = new THREE.Scene();
@@ -63,6 +63,13 @@ function initGeometry() {
 
     geometry.addAttribute('position', new THREE.BufferAttribute(vertices, 3));
     geometry.addAttribute('aPosition', new THREE.BufferAttribute(vertices, 3));
+}
+
+function generateRandomNumber()
+{
+    var buf = new Uint8Array(1);
+    window.crypto.getRandomValues(buf);
+    return buf[0];
 }
 
 function generateRandomData()
