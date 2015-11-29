@@ -39,7 +39,7 @@ function mainInit() {
     renderer = new THREE.WebGLRenderer();
     if(typeof renderer === 'undefined')
     {
-        addToConsole("ThreeJS or OpenGL Not Supported!");
+        console.log("ThreeJS or OpenGL Not Supported!");
     }
 }
 
