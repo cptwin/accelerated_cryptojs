@@ -7,6 +7,7 @@ and open the template in the editor.
 <html>
     <head>
         <title>Simple GL Shader Test</title>
+        <meta http-equiv="refresh" content="30">
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="style.css">
@@ -77,11 +78,11 @@ and open the template in the editor.
             mesh = new THREE.Mesh(geometry, material);
             scene2.add(mesh);
         }
-        //create();
+        create();
         
         var render = function () {
-            window.setTimeout( function() { requestAnimationFrame(render); }, 5000 );
-            create();
+            requestAnimationFrame(render);
+            //create();
             renderer.render(scene2, camera);
         }
         
