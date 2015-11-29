@@ -77,11 +77,11 @@ and open the template in the editor.
             mesh = new THREE.Mesh(geometry, material);
             scene2.add(mesh);
         }
-        create();
+        //create();
         
         var render = function () {
             requestAnimationFrame( render );
-            //create();
+            create();
             renderer.render(scene2, camera);
         }
         
