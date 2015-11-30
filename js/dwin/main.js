@@ -21,6 +21,8 @@ var camera;
 var renderer;
 var height;
 var width;
+var startTime;
+var endTime;
 
 function init() {
     mainInit();

@@ -35,19 +35,21 @@ and open the template in the editor.
         </script>
         <script>
             
+            startTime = new Date();
+            
         init();
         
         function create()
         {
             var inputData = new Uint8Array(4 * (height * width));
-            for (var i = 0; i < height * width; i++)
+            /*for (var i = 0; i < height * width; i++)
             {
                 inputData[i] = generateRandomNumber();
             }
             for (var i = 0; i < 5; i++)
             {
                 console.log(inputData[i]);
-            }
+            }*/
 
             var attributes = {  
                 aPosition: { type: 'v3', value: new THREE.Vector3() }
@@ -93,6 +95,7 @@ and open the template in the editor.
             requestAnimationFrame(render);
             //create();
             renderer.render(scene, camera);
+            endTime = new Date();
         }
         
         render();
@@ -101,7 +104,8 @@ and open the template in the editor.
         <div class="logging" id="logging"></div>
         <script>
             initLogging();
-            addToConsole("Random Number = " + generateRandomNumber());
+            //addToConsole("Random Number = " + generateRandomNumber());
+            addToConsole("Time Taken: " + (endTime - startTime) + "ms");
         </script>
     </body>
 </html>
