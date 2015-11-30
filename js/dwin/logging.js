@@ -19,10 +19,13 @@ var loggingDiv;
 function initLogging()
 {
     loggingDiv = document.getElementById('logging');
-    loggingDiv.innerHTML = "Console:";
+    addToConsole("Console:");
 }
 
 function addToConsole(message)
 {
-    loggingDiv.innerHTML = loggingDiv.innerHTML + " " + message;
+    if(!(typeof loggingDiv === 'undefined'))
+    {
+        loggingDiv.innerHTML = loggingDiv.innerHTML + " " + message;
+    }
 }

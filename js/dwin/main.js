@@ -45,6 +45,24 @@ function mainInit() {
     }
 }
 
+function shaderMaterial(uniforms, vertexShaderCode, fragmentShaderCode)
+{
+    return new THREE.ShaderMaterial({
+        uniforms: uniforms,
+        vertexShader: vertexShaderCode,
+        fragmentShader: fragmentShaderCode
+    });
+}
+
+function renderTargetParams() {
+    var renderTargetParams = {
+            minFilter:THREE.LinearFilter,
+            stencilBuffer:false,
+            depthBuffer:false
+    };
+    return renderTargetParams;
+}
+
 function webglAvailable() {
         try {
                 var canvas = document.createElement( 'canvas' );
@@ -88,6 +106,20 @@ function generateRandomNumber()
     var buf = new Uint8Array(1);
     window.crypto.getRandomValues(buf);
     return buf[0];
+}
+
+function dataTexture(Uint8Array) {
+    var dataTexture = new THREE.DataTexture(Uint8Array,height,width,THREE.RGBAFormat);
+    dataTexture.needsUpdate = true;
+    return dataTexture;
+}
+
+function uniform(Uint8Array)
+{
+    var uniforms = {
+        sTexture: { type: "t", value: dataTexture(Uint8Array) }
+    };
+    return uniforms;
 }
 
 function generateRandomData()

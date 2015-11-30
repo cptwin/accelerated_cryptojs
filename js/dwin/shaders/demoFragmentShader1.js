@@ -15,23 +15,18 @@
  */
 
 document.write('\
-<script id="fragmentShader2" type="x-shader/x-fragment">\
+        <script id="demoFragmentShader1" type="x-shader/x-fragment">\
             uniform sampler2D sTexture;\
-            uniform sampler2D sTexture2;\
                     void main() {\
                         vec2 stCoord = vec2(gl_FragCoord.x,gl_FragCoord.y);\
                         gl_FragColor = texture2D(sTexture,stCoord);\
-                        vec4 originalTex = texture2D(sTexture2,stCoord);\
-                        if(gl_FragColor.g > 0.8)\
+                        if(gl_FragCoord.x < 200.0)\
                         {\
-                            gl_FragColor.r = 0.0;\
-                        }\
-                        if(gl_FragCoord.x > 320.0 && gl_FragCoord.y > 240.0)\
-                        {   gl_FragColor = vec4(0.0,0.0,1.0,1.0);\
-                        }\
-                        if(gl_FragCoord.x < 320.0 && gl_FragCoord.y > 240.0 && originalTex.r > 0.5)\
-                        {   gl_FragColor.b = 1.0;\
-                            gl_FragColor.r = 0.0;\
+                            gl_FragColor.b = 0.5;\
+                        } else if(gl_FragCoord.x > 200.0 && gl_FragCoord.x < 400.0) {\
+                            gl_FragColor.r = 0.5;\
+                        } else {\
+                            gl_FragColor.g = 0.5;\
                         }\
                     }\
         </script>\

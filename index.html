@@ -9,7 +9,7 @@ and open the template in the editor.
         <title>Simple GL Shader Test</title>
         <meta http-equiv="refresh" content="30">
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
         <link rel="stylesheet" href="style.css">
         <script src="js/three.js"></script>
         <script src="js/Detector.js"></script>
@@ -21,6 +21,7 @@ and open the template in the editor.
         <script src="js/dwin/logging.js"></script>
         
         <script src="js/dwin/shaders/vertexShader.js"></script>
+        <script src="js/dwin/shaders/demoFragmentShader1.js"></script>
         <script src="js/dwin/shaders/fragmentShader1.js"></script>
         <script src="js/dwin/shaders/fragmentShader2.js"></script>
         
@@ -29,7 +30,7 @@ and open the template in the editor.
         <script>
             if (!window.WebGLRenderingContext) {
                 window.alert("WebGL isn't supported by your browser!");
-                //console.log("WebGL isn't supported by your browser!");
+                console.log("WebGL isn't supported by your browser!");
             }
         </script>
         <script>
@@ -38,59 +39,60 @@ and open the template in the editor.
         
         function create()
         {
-            var renderTargetParams = {
-                    minFilter:THREE.LinearFilter,
-                    stencilBuffer:false,
-                    depthBuffer:false
+            var inputData = new Uint8Array(4 * (height * width));
+            for (var i = 0; i < height * width; i++)
+            {
+                inputData[i] = generateRandomNumber();
             }
-
-            var dataTexture = new THREE.DataTexture(generateRandomData(),height,width,THREE.RGBAFormat);
-            dataTexture.needsUpdate = true;
-
-            var uniforms = {
-                sTexture: { type: "t", value: dataTexture }
-            };
+            for (var i = 0; i < 5; i++)
+            {
+                console.log(inputData[i]);
+            }
 
             var attributes = {  
                 aPosition: { type: 'v3', value: new THREE.Vector3() }
               };
+              
+            var material_FS = shaderMaterial(uniform(inputData), document.getElementById('vertexShader').textContent, document.getElementById('demoFragmentShader1').textContent);
 
-            var material_FS = new THREE.ShaderMaterial({
+            /*var material_FS = new THREE.ShaderMaterial({
                 uniforms: uniforms,
                 vertexShader: document.getElementById('vertexShader').textContent,
                 fragmentShader: document.getElementById('fragmentShader1').textContent
-            });
+            });*/
 
             var mesh = new THREE.Mesh(geometry, material_FS);
             scene.add(mesh);
 
-            var myTexture = new THREE.WebGLRenderTarget( height, width, renderTargetParams );
+            var myTexture = new THREE.WebGLRenderTarget( height, width, renderTargetParams() );
 
             renderer.setSize(height, width);
             document.body.appendChild(renderer.domElement);
 
             renderer.render(scene, camera, myTexture, true);
 
-            var uniforms2 = {
+            /*var uniforms2 = {
                 sTexture: { type: "t", value: myTexture },
                 sTexture2: { type: "t", value: dataTexture }
-            };
+            };*/
+            
+            //var material = shaderMaterial(uniforms2, document.getElementById('vertexShader').textContent, document.getElementById('fragmentShader2').textContent);
 
-            var material = new THREE.ShaderMaterial({
+            /*var material = new THREE.ShaderMaterial({
                 uniforms: uniforms2,
                 vertexShader: document.getElementById('vertexShader').textContent,
                 fragmentShader: document.getElementById('fragmentShader2').textContent
-            });
+            });*/
 
-            mesh = new THREE.Mesh(geometry, material);
-            scene2.add(mesh);
+            //var mesh2 = new THREE.Mesh(geometry, material);
+            //scene2.add(mesh2);
         }
         create();
         
         var render = function () {
             requestAnimationFrame(render);
             //create();
-            renderer.render(scene2, camera);
+            renderer.render(scene, camera);
         }
         
         render();
