@@ -24,6 +24,7 @@ and open the template in the editor.
         <script src="js/dwin/shaders/demoFragmentShader1.js"></script>
         <script src="js/dwin/shaders/fragmentShader1.js"></script>
         <script src="js/dwin/shaders/fragmentShader2.js"></script>
+        <script src="js/dwin/shaders/randomNumberGeneratorFragmentShader.js"></script>
         
     </head>
     <body>
@@ -35,10 +36,17 @@ and open the template in the editor.
         </script>
         <script>
             
-            startTime = new Date();
-            
-        init();
+        init();  
         
+        
+        function start() {
+            startTime = new Date();
+                      
+            create();
+            render();
+            addToConsole("Time Taken = " + (endTime - startTime) + "ms");
+        }
+
         function create()
         {
             var inputData = new Uint8Array(4 * (height * width));
@@ -55,7 +63,8 @@ and open the template in the editor.
                 aPosition: { type: 'v3', value: new THREE.Vector3() }
               };
               
-            var material_FS = shaderMaterial(uniform(inputData), document.getElementById('vertexShader').textContent, document.getElementById('demoFragmentShader1').textContent);
+            //var material_FS = shaderMaterial(uniform(inputData), document.getElementById('vertexShader').textContent, document.getElementById('demoFragmentShader1').textContent);
+            var material_FS = shaderMaterial(uniform(inputData), document.getElementById('vertexShader').textContent, document.getElementById('randomNumberGeneratorFragmentShader').textContent);
 
             /*var material_FS = new THREE.ShaderMaterial({
                 uniforms: uniforms,
@@ -67,9 +76,6 @@ and open the template in the editor.
             scene.add(mesh);
 
             var myTexture = new THREE.WebGLRenderTarget( height, width, renderTargetParams() );
-
-            renderer.setSize(height, width);
-            document.body.appendChild(renderer.domElement);
 
             renderer.render(scene, camera, myTexture, true);
 
@@ -89,7 +95,7 @@ and open the template in the editor.
             //var mesh2 = new THREE.Mesh(geometry, material);
             //scene2.add(mesh2);
         }
-        create();
+        
         
         var render = function () {
             requestAnimationFrame(render);
@@ -97,15 +103,13 @@ and open the template in the editor.
             renderer.render(scene, camera);
             endTime = new Date();
         }
-        
-        render();
 
         </script>
         <div class="logging" id="logging"></div>
         <script>
             initLogging();
             //addToConsole("Random Number = " + generateRandomNumber());
-            addToConsole("Time Taken = " + (endTime - startTime) + "ms");
+            addToConsole("<input type=\"submit\" onclick=\"start();\" value=\"Start\" />");
         </script>
     </body>
 </html>

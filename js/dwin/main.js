@@ -40,11 +40,14 @@ function mainInit() {
     camera.position.z = 1;
     //renderer = new THREE.WebGLRenderer();
     //renderer = Detector.webgl? new THREE.WebGLRenderer(): new THREE.CanvasRenderer();
+    //renderer = new THREE.CanvasRenderer();
     if ( webglAvailable() ) {
             renderer = new THREE.WebGLRenderer();
     } else {
             renderer = new THREE.CanvasRenderer();
     }
+    renderer.setSize(height, width);
+    document.body.appendChild(renderer.domElement);
 }
 
 function shaderMaterial(uniforms, vertexShaderCode, fragmentShaderCode)
