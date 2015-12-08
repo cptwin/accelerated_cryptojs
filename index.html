@@ -24,6 +24,8 @@ and open the template in the editor.
         <script src="js/dwin/shaders/fragmentShader2.js"></script>
         <script src="js/dwin/shaders/randomNumberGeneratorFragmentShader.js"></script>
         
+        <script src="js/vibornoff/asmcrypto.js"></script>
+        
     </head>
     <body>
         <script>
@@ -34,7 +36,9 @@ and open the template in the editor.
         </script>
         <script>
             
-        init();  
+        init();
+        
+        var chunk = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus in risus non augue vestibulum semper. Nullam feugiat tortor sit amet dolor venenatis ultricies. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Pellentesque imperdiet ullamcorper ullamcorper. Aliquam eget nunc a diam dapibus ultricies. In hac habitasse platea dictumst. Curabitur nec tortor nibh, fermentum molestie massa. Vestibulum volutpat gravida nisl, vitae viverra eros bibendum a. Vestibulum sed felis arcu, et volutpat leo. Praesent semper, nibh et suscipit auctor, magna enim lacinia diam, id tristique arcu nunc at odio. Nunc vitae est risus, nec placerat velit. Ut rutrum fringilla consectetur. Fusce rutrum dui aliquet ligula suscipit aliquam. Mauris tincidunt, lacus ut suscipit sodales, justo magna accumsan justo, id tristique massa odio semper enim.';
         
         
         function start() {
@@ -43,6 +47,142 @@ and open the template in the editor.
             create();
             render();
             addToConsole("Time Taken = " + (endTime - startTime) + "ms");
+        }
+        
+        function asmcryptoAES128Test()
+        {
+            var bs = 1024 * 1024;
+            var str = '';
+            while ( str.length < bs ) str += chunk;
+            str = str.substr( 0, bs );
+
+            var buf = new Uint8Array(bs);
+            for ( var i = 0; i < bs; i++ ) buf[i] = str.charCodeAt(i);
+            
+            
+            
+            startTime = new Date();
+            //var cipherText = asmCrypto.AES_CBC.encrypt( str, '0123456789abcdef' ); //string
+            var cipherText = asmCrypto.AES_CBC.encrypt( buf, '0123456789abcdef' ); //buffer
+            endTime = new Date();
+            addToConsole("AES-128-ECB Encryption = " + (endTime - startTime) + "ms");
+
+            startTime = new Date();
+            var plainText = asmCrypto.AES_CBC.decrypt( cipherText, '0123456789abcdef' );
+            endTime = new Date();
+            addToConsole("Decryption = " + (endTime - startTime) + "ms");
+            //window.alert(asmCrypto.bytes_to_string(plainText));
+        }
+        
+        function asmcryptoAES256Test()
+        {
+            var bs = 1024 * 1024;
+            var str = '';
+            while ( str.length < bs ) str += chunk;
+            str = str.substr( 0, bs );
+
+            var buf = new Uint8Array(bs);
+            for ( var i = 0; i < bs; i++ ) buf[i] = str.charCodeAt(i);
+            
+            
+            
+            startTime = new Date();
+            //var cipherText = asmCrypto.AES_CBC.encrypt( str, '0123456789abcdef0123456789abcdef' ); //string
+            var cipherText = asmCrypto.AES_CBC.encrypt( buf, '0123456789abcdef0123456789abcdef' ); //buffer
+            endTime = new Date();
+            addToConsole("AES-256-ECB Encryption = " + (endTime - startTime) + "ms");
+
+            startTime = new Date();
+            var plainText = asmCrypto.AES_CBC.decrypt( cipherText, '0123456789abcdef0123456789abcdef' );
+            endTime = new Date();
+            addToConsole("Decryption = " + (endTime - startTime) + "ms");
+            //window.alert(asmCrypto.bytes_to_string(plainText));
+        }
+        
+        var RSA2048Key;
+        function asmcryptoRSA2048Test()
+        {
+            startTime = new Date();
+            RSA2048Key = asmCrypto.RSA.generateKey(2048, 65537);
+            endTime = new Date();
+            addToConsole("RSA-2048 Key Generation = " + (endTime - startTime) + "ms");
+            
+            var bs = 1024 * 1024;
+            var str = '';
+            while ( str.length < bs ) str += chunk;
+            str = str.substr( 0, bs );
+
+            var buf = new Uint8Array(bs);
+            for ( var i = 0; i < bs; i++ ) buf[i] = str.charCodeAt(i);
+            
+            var pubkey = [
+                RSA2048Key[0],
+                RSA2048Key[1]
+            ];
+            
+            /*var privkey = [
+                RSA2048Key[2],
+                RSA2048Key[3],
+                RSA2048Key[4],
+                RSA2048Key[5],
+                RSA2048Key[6],
+                RSA2048Key[7]
+            ];*/
+            
+            startTime = new Date();
+            var text = "Hello World!";
+            var cipherText = asmCrypto.RSA_OAEP_SHA256.encrypt( text, pubkey );
+            endTime = new Date();
+            addToConsole("Encryption = " + (endTime - startTime) + "ms");
+            
+            startTime = new Date();
+            var plainText = asmCrypto.RSA_OAEP_SHA256.decrypt( cipherText, RSA2048Key );
+            endTime = new Date();
+            addToConsole("Decryption = " + (endTime - startTime) + "ms");
+            //window.alert(asmCrypto.bytes_to_string(plainText));
+        }
+        
+        /* Times out on desktop browser, crashes everything... do not run...
+        function asmcryptoRSA3072Test()
+        {
+            startTime = new Date();
+            var RSA3072Key = asmCrypto.RSA.generateKey(3072, 65537);
+            endTime = new Date();
+            addToConsole("RSA-3072 Key Generation = " + (endTime - startTime) + "ms");
+        }*/
+        
+        /* Times out on desktop browser, crashes everything... do not run...
+        function asmcryptoRSA15360Test()
+        {
+            startTime = new Date();
+            var RSA15360Key = asmCrypto.RSA.generateKey(15360, 65537);
+            endTime = new Date();
+            addToConsole("RSA-15360 Key Generation = " + (endTime - startTime) + "ms");
+        }*/
+        
+        function startTests() {
+            addToConsole("!! asmcryptoTests !! ");
+            asmcryptoAES128Test();
+            asmcryptoAES256Test();
+            
+            asmcryptoRSA2048Test(); //not even equivalent security to 128-bit, more like 112-bit AES http://i.cmpnet.com/commsdesign/csd/2004/mar04/certicom-table3.jpg
+            
+            //asmcryptoRSA3072Test();
+            //asmcryptoRSA15360Test();
+
+            //addToConsole("asmcryptoTest AES-128-ECB Time Taken = " + (endTime - startTime) + "ms");
+            //var cihper = CryptoJS.AES.encrypt( str, cryptojs_key, { iv: cryptojs_key } );
+        }
+        
+        function startAESTests() {
+            addToConsole("!! asmcryptoTests !! ");
+            asmcryptoAES128Test();
+            asmcryptoAES256Test();
+        }
+        
+        function startRSATests() {
+            addToConsole("!! asmcryptoTests !! ");
+            asmcryptoRSA2048Test();
         }
 
         function create()
@@ -107,7 +247,10 @@ and open the template in the editor.
         <script>
             initLogging();
             //addToConsole("Random Number = " + generateRandomNumber());
-            addToConsole("<input type=\"submit\" onclick=\"start();\" value=\"Start\" />");
+            addToConsole("<input type=\"submit\" onclick=\"start();\" value=\"Start GPU Tests\" />");
+            addToConsole(" <input type=\"submit\" onclick=\"startTests();\" value=\"Start CPU Tests\" />");
+            addToConsole(" <input type=\"submit\" onclick=\"startAESTests();\" value=\"Start AES Tests\" />");
+            addToConsole(" <input type=\"submit\" onclick=\"startRSATests();\" value=\"Start RSA Tests\" />");
         </script>
     </body>
 </html>
