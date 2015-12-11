@@ -262,7 +262,7 @@ and open the template in the editor.
 	function startWorker() {
 	    if(typeof(Worker) !== "undefined") {
 		if(typeof(w) == "undefined") {
-		    w = new Worker("js/demo_workers.js");
+		    w = new Worker("demo_workers.js");
 		}
 		w.onmessage = function(event) {
 		    document.getElementById("result").innerHTML = event.data;
