@@ -19,13 +19,21 @@ var loggingDiv;
 function initLogging()
 {
     loggingDiv = document.getElementById('logging');
-    addToConsole("Console:");
+    addButtonsToConsole("Console:");
+}
+
+function addButtonsToConsole(message)
+{
+    if(!(typeof loggingDiv === 'undefined'))
+    {
+        loggingDiv.innerHTML = loggingDiv.innerHTML + " " + message;
+    }
 }
 
 function addToConsole(message)
 {
     if(!(typeof loggingDiv === 'undefined'))
     {
-        loggingDiv.innerHTML = loggingDiv.innerHTML + " " + message;
+        loggingDiv.innerHTML = loggingDiv.innerHTML + "<p>" + message + "</p>";
     }
 }
