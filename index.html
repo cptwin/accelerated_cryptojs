@@ -34,6 +34,12 @@ and open the template in the editor.
                 console.log("WebGL isn't supported by your browser!");
             }
         </script>
+		<script>
+			window.crypto = window.crypto || window.msCrypto; //for IE11
+            if(window.crypto.webkitSubtle){
+                window.crypto.subtle = window.crypto.webkitSubtle; //for Safari
+            }
+		</script>
         <script>
             
         init();
@@ -605,25 +611,31 @@ and open the template in the editor.
         function startAESTests() {
 		
 			numTests = 10;
-			
-			var totalTimeAES = [0,0];
-			for (i = 0; i < numTests; i++) {
-				var temp = asmcryptoAES128Test();
-				totalTimeAES[0] += temp.encryptionTimeTaken;
-				totalTimeAES[1] += temp.decryptionTimeTaken;
+			try {
+				var totalTimeAES = [0,0];
+				for (i = 0; i < numTests; i++) {
+					var temp = asmcryptoAES128Test();
+					totalTimeAES[0] += temp.encryptionTimeTaken;
+					totalTimeAES[1] += temp.decryptionTimeTaken;
+				}
+				addToConsole("ASMCrypto-AES-CBC-128-Encryption" + " = " + (totalTimeAES[0]/numTests) + "ms");
+				addToConsole("ASMCrypto-AES-CBC-128-Decryption" + " = " + (totalTimeAES[1]/numTests) + "ms");
+			} catch(err) {
+				
 			}
-			addToConsole("ASMCrypto-AES-CBC-128-Encryption" + " = " + (totalTimeAES[0]/numTests) + "ms");
-			addToConsole("ASMCrypto-AES-CBC-128-Decryption" + " = " + (totalTimeAES[1]/numTests) + "ms");
 			
-			totalTimeAES = [0,0];
-			for (i = 0; i < numTests; i++) {
-				var temp = asmcryptoAESGCM128Test();
-				totalTimeAES[0] += temp.encryptionTimeTaken;
-				totalTimeAES[1] += temp.decryptionTimeTaken;
+			try {
+				totalTimeAES = [0,0];
+				for (i = 0; i < numTests; i++) {
+					var temp = asmcryptoAESGCM128Test();
+					totalTimeAES[0] += temp.encryptionTimeTaken;
+					totalTimeAES[1] += temp.decryptionTimeTaken;
+				}
+				addToConsole("ASMCrypto-AES-GCM-128-Encryption" + " = " + (totalTimeAES[0]/numTests) + "ms");
+				addToConsole("ASMCrypto-AES-GCM-128-Decryption" + " = " + (totalTimeAES[1]/numTests) + "ms");
+			} catch(err) {
+				
 			}
-			addToConsole("ASMCrypto-AES-GCM-128-Encryption" + " = " + (totalTimeAES[0]/numTests) + "ms");
-			addToConsole("ASMCrypto-AES-GCM-128-Decryption" + " = " + (totalTimeAES[1]/numTests) + "ms");
-			
 			/*totalTimeAES = [0,0];
 			for (i = 0; i < numTests; i++) {
 				var temp = asmcryptoAESCTR128Test();
@@ -633,23 +645,31 @@ and open the template in the editor.
 			addToConsole("ASMCrypto-AES-CTR-128-Encryption" + " = " + (totalTimeAES[0]/numTests) + "ms");
 			addToConsole("ASMCrypto-AES-CTR-128-Decryption" + " = " + (totalTimeAES[1]/numTests) + "ms");*/
 			
-			totalTimeAES = [0,0];
-			for (i = 0; i < numTests; i++) {
-				var temp = asmcryptoAES256Test();
-				totalTimeAES[0] += temp.encryptionTimeTaken;
-				totalTimeAES[1] += temp.decryptionTimeTaken;
+			try {
+				totalTimeAES = [0,0];
+				for (i = 0; i < numTests; i++) {
+					var temp = asmcryptoAES256Test();
+					totalTimeAES[0] += temp.encryptionTimeTaken;
+					totalTimeAES[1] += temp.decryptionTimeTaken;
+				}
+				addToConsole("ASMCrypto-AES-CBC-256-Encryption" + " = " + (totalTimeAES[0]/numTests) + "ms");
+				addToConsole("ASMCrypto-AES-CBC-256-Decryption" + " = " + (totalTimeAES[1]/numTests) + "ms");
+			} catch(err) {
+				
 			}
-			addToConsole("ASMCrypto-AES-CBC-256-Encryption" + " = " + (totalTimeAES[0]/numTests) + "ms");
-			addToConsole("ASMCrypto-AES-CBC-256-Decryption" + " = " + (totalTimeAES[1]/numTests) + "ms");
 			
-			totalTimeAES = [0,0];
-			for (i = 0; i < numTests; i++) {
-				var temp = asmcryptoAESGCM256Test();
-				totalTimeAES[0] += temp.encryptionTimeTaken;
-				totalTimeAES[1] += temp.decryptionTimeTaken;
+			try {
+				totalTimeAES = [0,0];
+				for (i = 0; i < numTests; i++) {
+					var temp = asmcryptoAESGCM256Test();
+					totalTimeAES[0] += temp.encryptionTimeTaken;
+					totalTimeAES[1] += temp.decryptionTimeTaken;
+				}
+				addToConsole("ASMCrypto-AES-GCM-256-Encryption" + " = " + (totalTimeAES[0]/numTests) + "ms");
+				addToConsole("ASMCrypto-AES-GCM-256-Decryption" + " = " + (totalTimeAES[1]/numTests) + "ms");
+			} catch(err) {
+				
 			}
-			addToConsole("ASMCrypto-AES-GCM-256-Encryption" + " = " + (totalTimeAES[0]/numTests) + "ms");
-			addToConsole("ASMCrypto-AES-GCM-256-Decryption" + " = " + (totalTimeAES[1]/numTests) + "ms");
 			
 			/*totalTimeAES = [0,0];
 			for (i = 0; i < numTests; i++) {
@@ -660,27 +680,53 @@ and open the template in the editor.
 			addToConsole("ASMCrypto-AES-CTR-256-Encryption" + " = " + (totalTimeAES[0]/numTests) + "ms");
 			addToConsole("ASMCrypto-AES-CTR-256-Decryption" + " = " + (totalTimeAES[1]/numTests) + "ms");*/
 			
-			for (i = 0; i < numTests; i++) {
-				WebCryptoAESGCMTest(128, i);
-			}
-			for (i = 0; i < numTests; i++) {
-				WebCryptoAESGCMTest(256, i);
-			}
-			
-			for (i = 0; i < numTests; i++) {
-				WebCryptoAESCTRTest(128, i);
-			}
-			for (i = 0; i < numTests; i++) {
-				WebCryptoAESCTRTest(256, i);
+			try {
+				for (i = 0; i < numTests; i++) {
+					WebCryptoAESGCMTest(128, i);
+				}
+			} catch(err) {
+				
 			}
 			
-			for (i = 0; i < numTests; i++) {
-				WebCryptoAESCBCTest(128, i);
-			}
-			for (i = 0; i < numTests; i++) {
-				WebCryptoAESCBCTest(256, i);
+			try {
+				for (i = 0; i < numTests; i++) {
+					WebCryptoAESGCMTest(256, i);
+				}
+			} catch(err) {
+				
 			}
 			
+			try {
+				for (i = 0; i < numTests; i++) {
+					WebCryptoAESCTRTest(128, i);
+				}
+			} catch(err) {
+				
+			}
+			
+			try {
+				for (i = 0; i < numTests; i++) {
+					WebCryptoAESCTRTest(256, i);
+				}
+			} catch(err) {
+				
+			}
+			
+			try {
+				for (i = 0; i < numTests; i++) {
+					WebCryptoAESCBCTest(128, i);
+				}
+			} catch(err) {
+				
+			}
+			
+			try {
+				for (i = 0; i < numTests; i++) {
+					WebCryptoAESCBCTest(256, i);
+				}
+			} catch(err) {
+				
+			}
         }
         
         function startRSATests() {
