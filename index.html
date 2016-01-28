@@ -306,6 +306,25 @@ and open the template in the editor.
 			function finishedWebCryptoAESGCMTest(bitSize)
 			{
 				addToConsole("WebCrypto-RSA-"+bitSize+"-KeyGen" + " = " + (TimeTaken/numTests) + "ms");
+				if(bitSize == 1024)
+				{
+					try {
+					for (i = 0; i < numTests; i++) {
+						WebCryptoRSAGenerateKeyTest(2048, i);
+					}
+					} catch(err) {
+						
+					}
+				} else if(bitSize == 2048)
+				{
+					try {
+						for (i = 0; i < numTests; i++) {
+							WebCryptoRSAGenerateKeyTest(4096, i);
+						}
+					} catch(err) {
+						
+					}
+				}
 			}
 			var startTime = new Date();
 			window.crypto.subtle.generateKey(
@@ -335,8 +354,28 @@ and open the template in the editor.
 			{
 				addToConsole("WebCrypto-RSA-OAEP-"+bitSize+"-Encryption" + " = " + (WebCryptoAESGCMTest_EncryptionTime/numTests) + "ms");
 				addToConsole("WebCrypto-RSA-OAEP-"+bitSize+"-Decryption" + " = " + (WebCryptoAESGCMTest_DecryptionTime/numTests) + "ms");
+				if(bitSize == 1024)
+				{
+					try {
+						for (i = 0; i < numTests; i++) {
+							WebCryptoRSAOAEPTest(2048, i);
+						}
+					} catch(err) {
+						
+					}
+				} else if(bitSize == 2048)
+				{
+					try {
+						for (i = 0; i < numTests; i++) {
+							WebCryptoRSAOAEPTest(4096, i);
+						}
+					} catch(err) {
+						
+					}
+				}
 			}
-            var bs = 1024 * 1024;
+            //var bs = 1024 * 1024;
+			var bs = 62;
             var str = '';
             while ( str.length < bs ) str += chunk;
             str = str.substr( 0, bs );
@@ -398,6 +437,8 @@ and open the template in the editor.
 								,"decryptionTimeTaken":decryptionTimeTaken
 						};*/
 					});
+				}).catch(function(err){
+					console.error(err);
 				});
 				
 			});
@@ -830,7 +871,7 @@ and open the template in the editor.
         function startRSATests() {
 		
 			
-			numTests = 5;
+			numTests = 10;
 			var totalTime1024RSA = [0,0,0];
 			var totalTime2048RSA = [0,0,0];
 			var totalTime4096RSA = [0,0,0];
@@ -881,39 +922,6 @@ and open the template in the editor.
 						}
 				  }, 1);
 			
-			
-			
-			/*try {
-				var totalTimeRSA = [0,0,0];
-				for (i = 0; i < numTests; i++) {
-					var bitsize = 2048;
-					var temp = asmcryptoRSATest(bitsize);
-					totalTimeRSA[0] += temp.encryptionTimeTaken;
-					totalTimeRSA[1] += temp.decryptionTimeTaken;
-					totalTimeRSA[2] += temp.keygenTimeTaken;
-				}
-				addToConsole("ASMCrypto-RSA-" + bitsize + "-Encryption" + " = " + (totalTimeRSA[0]/numTests) + "ms");
-				addToConsole("ASMCrypto-RSA-" + bitsize + "-Decryption" + " = " + (totalTimeRSA[1]/numTests) + "ms");
-				addToConsole("ASMCrypto-RSA-" + bitsize + "-KeyGen" + " = " + (totalTimeRSA[2]/numTests) + "ms");
-			} catch(err) {
-				
-			}
-			
-			try {
-				var totalTimeRSA = [0,0,0];
-				for (i = 0; i < numTests; i++) {
-					var bitsize = 4096;
-					var temp = asmcryptoRSATest(bitsize);
-					totalTimeRSA[0] += temp.encryptionTimeTaken;
-					totalTimeRSA[1] += temp.decryptionTimeTaken;
-					totalTimeRSA[2] += temp.keygenTimeTaken;
-				}
-				addToConsole("ASMCrypto-RSA-" + bitsize + "-Encryption" + " = " + (totalTimeRSA[0]/numTests) + "ms");
-				addToConsole("ASMCrypto-RSA-" + bitsize + "-Decryption" + " = " + (totalTimeRSA[1]/numTests) + "ms");
-				addToConsole("ASMCrypto-RSA-" + bitsize + "-KeyGen" + " = " + (totalTimeRSA[2]/numTests) + "ms");
-			} catch(err) {
-				
-			}*/
 
         }
 		
@@ -929,15 +937,7 @@ and open the template in the editor.
 			
 			try {
 				for (i = 0; i < numTests; i++) {
-					WebCryptoRSAGenerateKeyTest(2048, i);
-				}
-			} catch(err) {
-				
-			}
-			
-			try {
-				for (i = 0; i < numTests; i++) {
-					WebCryptoRSAGenerateKeyTest(4096, i);
+					WebCryptoRSAOAEPTest(1024, i);
 				}
 			} catch(err) {
 				
