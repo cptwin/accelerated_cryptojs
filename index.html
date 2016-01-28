@@ -117,10 +117,6 @@ and open the template in the editor.
 						endTime = new Date();
 						var decryptionTimeTaken = (endTime - startTime);
 
-						//var cipherText = asmCrypto.AES_CBC.encrypt( str, '0123456789abcdef' ); //string
-						var cipherText = asmCrypto.AES_CBC.encrypt( buf, '0123456789abcdef' ); //buffer
-						var endTime = new Date();
-						var encryptionTimeTaken = (endTime - startTime);
 						WebCryptoAESCBCTest_EncryptionTime += encryptionTimeTaken;
 						WebCryptoAESCBCTest_DecryptionTime += decryptionTimeTaken;
 						if(curTest == numTests-1)
@@ -201,10 +197,6 @@ and open the template in the editor.
 						endTime = new Date();
 						var decryptionTimeTaken = (endTime - startTime);
 
-						//var cipherText = asmCrypto.AES_CBC.encrypt( str, '0123456789abcdef' ); //string
-						var cipherText = asmCrypto.AES_CBC.encrypt( buf, '0123456789abcdef' ); //buffer
-						var endTime = new Date();
-						var encryptionTimeTaken = (endTime - startTime);
 						WebCryptoAESCTRTest_EncryptionTime += encryptionTimeTaken;
 						WebCryptoAESCTRTest_DecryptionTime += decryptionTimeTaken;
 						if(curTest == numTests-1)
@@ -291,10 +283,109 @@ and open the template in the editor.
 						endTime = new Date();
 						var decryptionTimeTaken = (endTime - startTime);
 
-						//var cipherText = asmCrypto.AES_CBC.encrypt( str, '0123456789abcdef' ); //string
-						var cipherText = asmCrypto.AES_CBC.encrypt( buf, '0123456789abcdef' ); //buffer
-						var endTime = new Date();
-						var encryptionTimeTaken = (endTime - startTime);
+						WebCryptoAESGCMTest_EncryptionTime += encryptionTimeTaken;
+						WebCryptoAESGCMTest_DecryptionTime += decryptionTimeTaken;
+						if(curTest == numTests-1)
+						{
+							finishedWebCryptoAESGCMTest(bitSize);
+						}
+						//addToConsole("AES-128-ECB Encryption = " + (endTime - startTime) + "ms");
+						/*return {
+								"encryptionTimeTaken":encryptionTimeTaken
+								,"decryptionTimeTaken":decryptionTimeTaken
+						};*/
+					});
+				});
+				
+			});
+        }
+		
+		function WebCryptoRSAGenerateKeyTest(bitSize, curTest)
+		{
+			var TimeTaken = 0;
+			function finishedWebCryptoAESGCMTest(bitSize)
+			{
+				addToConsole("WebCrypto-RSA-"+bitSize+"-KeyGen" + " = " + (TimeTaken/numTests) + "ms");
+			}
+			var startTime = new Date();
+			window.crypto.subtle.generateKey(
+				{
+					name: "RSA-OAEP",
+					modulusLength: bitSize, //can be 1024, 2048, or 4096
+					publicExponent: new Uint8Array([0x01, 0x00, 0x01]),
+					hash: {name: "SHA-256"}, //can be "SHA-1", "SHA-256", "SHA-384", or "SHA-512"
+				},
+				false, //whether the key is extractable (i.e. can be used in exportKey)
+				["encrypt", "decrypt"] //must be ["encrypt", "decrypt"] or ["wrapKey", "unwrapKey"]
+			).then(function(key){
+				var endTime = new Date();
+				TimeTaken = TimeTaken + (endTime - startTime);
+				if(curTest == numTests-1)
+				{
+					finishedWebCryptoAESGCMTest(bitSize);
+				}
+			});
+		}
+		
+		function WebCryptoRSAOAEPTest(bitSize, curTest)
+        {
+			var WebCryptoAESGCMTest_EncryptionTime = 0;
+			var WebCryptoAESGCMTest_DecryptionTime = 0;
+			function finishedWebCryptoAESGCMTest(bitSize)
+			{
+				addToConsole("WebCrypto-RSA-OAEP-"+bitSize+"-Encryption" + " = " + (WebCryptoAESGCMTest_EncryptionTime/numTests) + "ms");
+				addToConsole("WebCrypto-RSA-OAEP-"+bitSize+"-Decryption" + " = " + (WebCryptoAESGCMTest_DecryptionTime/numTests) + "ms");
+			}
+            var bs = 1024 * 1024;
+            var str = '';
+            while ( str.length < bs ) str += chunk;
+            str = str.substr( 0, bs );
+
+            var buf = new Uint8Array(bs);
+            for ( var i = 0; i < bs; i++ ) buf[i] = str.charCodeAt(i);
+			
+			window.crypto.subtle.generateKey(
+				{
+					name: "RSA-OAEP",
+					modulusLength: bitSize, //can be 1024, 2048, or 4096
+					publicExponent: new Uint8Array([0x01, 0x00, 0x01]),
+					hash: {name: "SHA-256"}, //can be "SHA-1", "SHA-256", "SHA-384", or "SHA-512"
+				},
+				false, //whether the key is extractable (i.e. can be used in exportKey)
+				["encrypt", "decrypt"] //must be ["encrypt", "decrypt"] or ["wrapKey", "unwrapKey"]
+			).then(function(key){
+				
+				var startTime = new Date();
+				var cipherText;
+				window.crypto.subtle.encrypt(
+					{
+						name: "RSA-OAEP",
+						//label: Uint8Array([...]) //optional
+					},
+					key.publicKey, //from generateKey or importKey above
+					buf //ArrayBuffer of data you want to encrypt
+				)
+				.then(function(encrypted){
+					//returns an ArrayBuffer containing the encrypted data
+					//console.log(new Uint8Array(encrypted));
+					cipherText = new Uint8Array(encrypted);
+					var endTime = new Date();
+					var encryptionTimeTaken = (endTime - startTime);
+					
+					startTime = new Date();
+					window.crypto.subtle.decrypt(
+						{
+							name: "RSA-OAEP",
+						},
+						key.privateKey, //from generateKey or importKey above
+						cipherText //ArrayBuffer of the data
+					)
+					.then(function(decrypted){
+						//returns an ArrayBuffer containing the decrypted data
+						new Uint8Array(decrypted);
+						endTime = new Date();
+						var decryptionTimeTaken = (endTime - startTime);
+
 						WebCryptoAESGCMTest_EncryptionTime += encryptionTimeTaken;
 						WebCryptoAESGCMTest_DecryptionTime += decryptionTimeTaken;
 						if(curTest == numTests-1)
@@ -487,14 +578,14 @@ and open the template in the editor.
 					,"decryptionTimeTaken":decryptionTimeTaken
 			};
         }
-        
-        var RSA2048Key;
-        function asmcryptoRSA2048Test()
+
+        function asmcryptoRSATest(bitsize)
         {
             startTime = new Date();
-            RSA2048Key = asmCrypto.RSA.generateKey(2048, 65537);
+            var RSAKey = asmCrypto.RSA.generateKey(bitsize, 65537);
             endTime = new Date();
-            addToConsole("RSA-2048 Key Generation = " + (endTime - startTime) + "ms");
+			var keygenTimeTaken = (endTime - startTime);
+            //addToConsole("RSA-2048 Key Generation = " + (endTime - startTime) + "ms");
             
             var bs = 1024 * 1024;
             var str = '';
@@ -505,8 +596,8 @@ and open the template in the editor.
             for ( var i = 0; i < bs; i++ ) buf[i] = str.charCodeAt(i);
             
             var pubkey = [
-                RSA2048Key[0],
-                RSA2048Key[1]
+                RSAKey[0],
+                RSAKey[1]
             ];
             
             /*var privkey = [
@@ -522,12 +613,19 @@ and open the template in the editor.
             var text = "Hello World!";
             var cipherText = asmCrypto.RSA_OAEP_SHA256.encrypt( text, pubkey );
             endTime = new Date();
-            addToConsole("Encryption = " + (endTime - startTime) + "ms");
+			var encryptionTimeTaken = (endTime - startTime)
+            //addToConsole("Encryption = " + (endTime - startTime) + "ms");
             
             startTime = new Date();
-            var plainText = asmCrypto.RSA_OAEP_SHA256.decrypt( cipherText, RSA2048Key );
+            var plainText = asmCrypto.RSA_OAEP_SHA256.decrypt( cipherText, RSAKey );
             endTime = new Date();
-            addToConsole("Decryption = " + (endTime - startTime) + "ms");
+			var decryptionTimeTaken = (endTime - startTime);
+            //addToConsole("Decryption = " + (endTime - startTime) + "ms");
+			return {
+					"encryptionTimeTaken":encryptionTimeTaken
+					,"decryptionTimeTaken":decryptionTimeTaken
+					,"keygenTimeTaken":keygenTimeTaken
+			};
             //window.alert(asmCrypto.bytes_to_string(plainText));
         }
         
@@ -730,11 +828,121 @@ and open the template in the editor.
         }
         
         function startRSATests() {
-            addToConsole("!! asmcryptoTests !! ");
-			for (i = 0; i < numTests; i++) {
-				asmcryptoRSA2048Test();
+		
+			
+			numTests = 5;
+			var totalTime1024RSA = [0,0,0];
+			var totalTime2048RSA = [0,0,0];
+			var totalTime4096RSA = [0,0,0];
+			
+			
+			//for (i = 0; i < numTests; i++) {
+			var zvalue1024 = 0;
+			var process1024 = setInterval(function()
+				  {
+						try {
+								var temp = asmcryptoRSATest(1024);
+								totalTime1024RSA[0] += temp.encryptionTimeTaken;
+								totalTime1024RSA[1] += temp.decryptionTimeTaken;
+								totalTime1024RSA[2] += temp.keygenTimeTaken;
+								//console.log(temp.encryptionTimeTaken + " " + temp.decryptionTimeTaken + " " + temp.keygenTimeTaken);
+
+								var temp = asmcryptoRSATest(2048);
+								totalTime2048RSA[0] += temp.encryptionTimeTaken;
+								totalTime2048RSA[1] += temp.decryptionTimeTaken;
+								totalTime2048RSA[2] += temp.keygenTimeTaken;
+
+								var temp = asmcryptoRSATest(4096);
+								totalTime4096RSA[0] += temp.encryptionTimeTaken;
+								totalTime4096RSA[1] += temp.decryptionTimeTaken;
+								totalTime4096RSA[2] += temp.keygenTimeTaken;
+								
+								zvalue1024++;
+								
+						} catch(err) {
+							
+						}
+						if(zvalue1024 == numTests)
+						{
+							clearInterval(process1024);
+							addToConsole("ASMCrypto-RSA-" + 1024 + "-Encryption" + " = " + (totalTime1024RSA[0]/numTests) + "ms");
+							addToConsole("ASMCrypto-RSA-" + 1024 + "-Decryption" + " = " + (totalTime1024RSA[1]/numTests) + "ms");
+							addToConsole("ASMCrypto-RSA-" + 1024 + "-KeyGen" + " = " + (totalTime1024RSA[2]/numTests) + "ms");
+
+							addToConsole("ASMCrypto-RSA-" + 2048 + "-Encryption" + " = " + (totalTime2048RSA[0]/numTests) + "ms");
+							addToConsole("ASMCrypto-RSA-" + 2048 + "-Decryption" + " = " + (totalTime2048RSA[1]/numTests) + "ms");
+							addToConsole("ASMCrypto-RSA-" + 2048 + "-KeyGen" + " = " + (totalTime2048RSA[2]/numTests) + "ms");
+							
+							addToConsole("ASMCrypto-RSA-" + 4096 + "-Encryption" + " = " + (totalTime4096RSA[0]/numTests) + "ms");
+							addToConsole("ASMCrypto-RSA-" + 4096 + "-Decryption" + " = " + (totalTime4096RSA[1]/numTests) + "ms");
+							addToConsole("ASMCrypto-RSA-" + 4096 + "-KeyGen" + " = " + (totalTime4096RSA[2]/numTests) + "ms");
+							
+							testAllWebCryptoRSA();
+						}
+				  }, 1);
+			
+			
+			
+			/*try {
+				var totalTimeRSA = [0,0,0];
+				for (i = 0; i < numTests; i++) {
+					var bitsize = 2048;
+					var temp = asmcryptoRSATest(bitsize);
+					totalTimeRSA[0] += temp.encryptionTimeTaken;
+					totalTimeRSA[1] += temp.decryptionTimeTaken;
+					totalTimeRSA[2] += temp.keygenTimeTaken;
+				}
+				addToConsole("ASMCrypto-RSA-" + bitsize + "-Encryption" + " = " + (totalTimeRSA[0]/numTests) + "ms");
+				addToConsole("ASMCrypto-RSA-" + bitsize + "-Decryption" + " = " + (totalTimeRSA[1]/numTests) + "ms");
+				addToConsole("ASMCrypto-RSA-" + bitsize + "-KeyGen" + " = " + (totalTimeRSA[2]/numTests) + "ms");
+			} catch(err) {
+				
 			}
+			
+			try {
+				var totalTimeRSA = [0,0,0];
+				for (i = 0; i < numTests; i++) {
+					var bitsize = 4096;
+					var temp = asmcryptoRSATest(bitsize);
+					totalTimeRSA[0] += temp.encryptionTimeTaken;
+					totalTimeRSA[1] += temp.decryptionTimeTaken;
+					totalTimeRSA[2] += temp.keygenTimeTaken;
+				}
+				addToConsole("ASMCrypto-RSA-" + bitsize + "-Encryption" + " = " + (totalTimeRSA[0]/numTests) + "ms");
+				addToConsole("ASMCrypto-RSA-" + bitsize + "-Decryption" + " = " + (totalTimeRSA[1]/numTests) + "ms");
+				addToConsole("ASMCrypto-RSA-" + bitsize + "-KeyGen" + " = " + (totalTimeRSA[2]/numTests) + "ms");
+			} catch(err) {
+				
+			}*/
+
         }
+		
+		function testAllWebCryptoRSA()
+		{
+			try {
+				for (i = 0; i < numTests; i++) {
+					WebCryptoRSAGenerateKeyTest(1024, i);
+				}
+			} catch(err) {
+				
+			}
+			
+			try {
+				for (i = 0; i < numTests; i++) {
+					WebCryptoRSAGenerateKeyTest(2048, i);
+				}
+			} catch(err) {
+				
+			}
+			
+			try {
+				for (i = 0; i < numTests; i++) {
+					WebCryptoRSAGenerateKeyTest(4096, i);
+				}
+			} catch(err) {
+				
+			}
+		}
 
         function create()
         {
