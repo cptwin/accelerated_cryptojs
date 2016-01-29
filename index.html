@@ -346,6 +346,50 @@ and open the template in the editor.
 			});
 		}
 		
+		function WebCryptoECCGenerateKeyTest(namedCurve, curTest)
+		{
+			var TimeTaken = 0;
+			function finishedWebCryptoAESGCMTest(namedCurve)
+			{
+				addToConsole("WebCrypto-ECDH-"+namedCurve+"-KeyGen" + " = " + (TimeTaken/numTests) + "ms");
+				if(namedCurve == "P-256")
+				{
+					try {
+					for (i = 0; i < numTests; i++) {
+						WebCryptoECCGenerateKeyTest("P-384", i);
+					}
+					} catch(err) {
+						
+					}
+				} else if(namedCurve == "P-384")
+				{
+					try {
+						for (i = 0; i < numTests; i++) {
+							WebCryptoECCGenerateKeyTest("P-521", i);
+						}
+					} catch(err) {
+						
+					}
+				}
+			}
+			var startTime = new Date();
+			window.crypto.subtle.generateKey(
+				{
+					name: "ECDH",
+					namedCurve: namedCurve,
+				},
+				false, //whether the key is extractable (i.e. can be used in exportKey)
+				["deriveKey", "deriveBits"] //must be ["encrypt", "decrypt"] or ["wrapKey", "unwrapKey"]
+			).then(function(key){
+				var endTime = new Date();
+				TimeTaken = TimeTaken + (endTime - startTime);
+				if(curTest == numTests-1)
+				{
+					finishedWebCryptoAESGCMTest(namedCurve);
+				}
+			});
+		}
+		
 		function WebCryptoRSAOAEPTest(bitSize, curTest)
         {
 			var WebCryptoAESGCMTest_EncryptionTime = 0;
@@ -678,20 +722,27 @@ and open the template in the editor.
             endTime = new Date();
             addToConsole("RSA-15360 Key Generation = " + (endTime - startTime) + "ms");
         }*/
-        
-        function startTests() {
-            addToConsole("!! asmcryptoTests !! ");
-            asmcryptoAES128Test();
-            asmcryptoAES256Test();
-            
-            asmcryptoRSA2048Test(); //not even equivalent security to 128-bit, more like 112-bit AES http://i.cmpnet.com/commsdesign/csd/2004/mar04/certicom-table3.jpg
-            
-            asmcryptoRSA3072Test();
-            //asmcryptoRSA15360Test();
-
-            //addToConsole("asmcryptoTest AES-128-ECB Time Taken = " + (endTime - startTime) + "ms");
-            //var cihper = CryptoJS.AES.encrypt( str, cryptojs_key, { iv: cryptojs_key } );
-        }
+		
+		function asmcryptoHashTests(digestName)
+		{
+			var timeTaken = 0;
+			var startTime = new Date();
+			var data = new Uint8Array([1,2,3,4]);
+			if(digestName == "SHA1")
+			{
+				asmCrypto.SHA1.hex(data);
+			} else if(digestName == "SHA256")
+			{
+				asmCrypto.SHA256.hex(data);
+			} /*else if(digestName == "SHA512")
+			{
+				asmCrypto.SHA512.hex(data);
+				//Uncaught TypeError: Cannot read property 'hex' of undefined
+			}*/
+			endTime = new Date();
+			timeTaken = (endTime - startTime);
+			return timeTaken;
+		}
 		
 		
 		function WebCryptoSHATest(digestName)
@@ -705,7 +756,7 @@ and open the template in the editor.
 				new Uint8Array([1,2,3,4]) //The data you want to hash as an ArrayBuffer
 			).then(function(hash){
 				//returns the hash as an ArrayBuffer
-				console.log(new Uint8Array(hash));
+				new Uint8Array(hash);
 			});
 			//returns the hash as an ArrayBuffer
 			endTime = new Date();
@@ -714,32 +765,50 @@ and open the template in the editor.
 		}
 		
 		function startHashTests() {
-			numTests = 100000;
+			numTests = 1000;
 		
 			var totalTime = 0;
 			for (i = 0; i < numTests; i++) {
 				totalTime += WebCryptoSHATest("SHA-1");
 			}
-			addToConsole("SHA-1" + " = " + (totalTime/numTests) + "ms");
+			addToConsole("WebCrypto-SHA-1" + " = " + (totalTime/numTests) + "ms");
 			
 			totalTime = 0;
 			for (i = 0; i < numTests; i++) {
 				totalTime += WebCryptoSHATest("SHA-256");
 			}
-			addToConsole("SHA-256" + " = " + (totalTime/numTests) + "ms");
+			addToConsole("WebCrypto-SHA-256" + " = " + (totalTime/numTests) + "ms");
 			
 			totalTime = 0;
 			for (i = 0; i < numTests; i++) {
 				totalTime += WebCryptoSHATest("SHA-384");
 			}
-			addToConsole("SHA-384" + " = " + (totalTime/numTests) + "ms");
+			addToConsole("WebCrypto-SHA-384" + " = " + (totalTime/numTests) + "ms");
 			
 			totalTime = 0;
 			for (i = 0; i < numTests; i++) {
 				totalTime += WebCryptoSHATest("SHA-512");
 			}
-			addToConsole("SHA-512" + " = " + (totalTime/numTests) + "ms");
-		
+			addToConsole("WebCrypto-SHA-512" + " = " + (totalTime/numTests) + "ms");
+			
+			totalTime = 0;
+			for (i = 0; i < numTests; i++) {
+				totalTime += asmcryptoHashTests("SHA1");
+			}
+			addToConsole("AsmCrypto-SHA-1" + " = " + (totalTime/numTests) + "ms");
+			
+			totalTime = 0;
+			for (i = 0; i < numTests; i++) {
+				totalTime += asmcryptoHashTests("SHA256");
+			}
+			addToConsole("AsmCrypto-SHA-256" + " = " + (totalTime/numTests) + "ms");
+			
+			/*totalTime = 0;
+			for (i = 0; i < numTests; i++) {
+				totalTime += asmcryptoHashTests("SHA512");
+			}
+			addToConsole("AsmCrypto-SHA-512" + " = " + (totalTime/numTests) + "ms");*/
+			
 			numTests = 10;
 		}
 		
@@ -867,6 +936,18 @@ and open the template in the editor.
 				
 			}
         }
+		
+		function startECCTests()
+		{
+			numTests = 100;
+			try {
+				for (i = 0; i < numTests; i++) {
+					WebCryptoECCGenerateKeyTest("P-256", i);
+				}
+			} catch(err) {
+				
+			}
+		}
         
         function startRSATests() {
 		
@@ -1007,13 +1088,10 @@ and open the template in the editor.
             initLogging();
             //addToConsole("Random Number = " + generateRandomNumber());
             addButtonsToConsole("<input type=\"submit\" onclick=\"start();\" value=\"Start GPU Tests\" />");
-            addButtonsToConsole(" <input type=\"submit\" onclick=\"startTests();\" value=\"Start CPU Tests\" />");
             addButtonsToConsole(" <input type=\"submit\" onclick=\"startAESTests();\" value=\"Start AES Tests\" />");
             addButtonsToConsole(" <input type=\"submit\" onclick=\"startRSATests();\" value=\"Start RSA Tests\" />");
 			addButtonsToConsole(" <input type=\"submit\" onclick=\"startECCTests();\" value=\"Start ECC Tests\" />");
 			addButtonsToConsole(" <input type=\"submit\" onclick=\"startHashTests();\" value=\"Start Hash Tests\" />");
-			addButtonsToConsole(" <input type=\"submit\" onclick=\"startWorker();\" value=\"Start Web Worker\" />");
-			addButtonsToConsole(" <input type=\"submit\" onclick=\"stopWorker();\" value=\"Start Web Worker\" />");
             addButtonsToConsole(" <output id=\"result\"></output> ");
         </script>
 
