@@ -18,7 +18,8 @@ document.write('\
         <script id="randomNumberGeneratorFragmentShader" type="x-shader/x-fragment">\
             uniform sampler2D sTexture;\
                     float rand(vec2 co){\
-                        return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);\
+						const vec2 r = vec2(23.1406926327792690, 2.6651441426902251);\
+                        return fract(sin(dot(co.xy ,vec2(23.1406926327792690,2.6651441426902251))) * 43758.5453);\
                     }\
                     void main() {\
                         vec2 stCoord = vec2(gl_FragCoord.x,gl_FragCoord.y);\

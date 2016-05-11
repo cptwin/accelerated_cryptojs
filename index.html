@@ -23,6 +23,7 @@ and open the template in the editor.
         <script src="js/dwin/shaders/fragmentShader1.js"></script>
         <script src="js/dwin/shaders/fragmentShader2.js"></script>
         <script src="js/dwin/shaders/randomNumberGeneratorFragmentShader.js"></script>
+		<script src="js/NTRUEncrypt.js"></script>
         
         <script src="js/vibornoff/asmcrypto.js"></script>
         
@@ -1092,6 +1093,9 @@ and open the template in the editor.
             addButtonsToConsole(" <input type=\"submit\" onclick=\"startRSATests();\" value=\"Start RSA Tests\" />");
 			addButtonsToConsole(" <input type=\"submit\" onclick=\"startECCTests();\" value=\"Start ECC Tests\" />");
 			addButtonsToConsole(" <input type=\"submit\" onclick=\"startHashTests();\" value=\"Start Hash Tests\" />");
+			addButtonsToConsole(" <input type=\"submit\" onclick=\"run10KBTest();\" value=\"NTRUEncrypt.js 10KB Tests\" />");
+			addButtonsToConsole(" <input type=\"submit\" onclick=\"run500KBTest();\" value=\"NTRUEncrypt.js 500KB Tests\" />");
+			addButtonsToConsole(" <input type=\"submit\" onclick=\"run1MBTest();\" value=\"NTRUEncrypt.js 1MB Tests\" />");
             addButtonsToConsole(" <output id=\"result\"></output> ");
         </script>
 

@@ -1,0 +1,145 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+
+<body>
+	<script>
+		var N = 11;
+		var q = 32;
+		var p = 3;
+		
+		var df = 0;
+		var dg = 0;
+		
+		var f = [];
+		var g = [];
+		
+		main();
+		
+		function randomNumber()
+		{
+		  var buf = new Uint8Array(1);
+		  window.crypto.getRandomValues(buf);
+		  return buf[0];
+		}
+		
+		function computep()
+		{
+			var positiveCoefficients = dg;
+		  var negativeCoefficients = dg;
+		  for(i = 0; i < N; i++)
+		  {
+			var tempRand = randomNumber();
+			if(tempRand % 2 == 0)
+			{
+				if(positiveCoefficients != 0)
+			  {
+				g[i] = 1;
+				positiveCoefficients--;
+			  }
+			  else if(negativeCoefficients != 0)
+			  {
+				g[i] = -1;
+				negativeCoefficients--;
+			  }
+			  else
+			  {
+				g[i] = 0;
+			  }
+			}
+			else
+			{
+				if(negativeCoefficients != 0)
+			  {
+				g[i] = -1;
+				negativeCoefficients--;
+			  }
+			  else if(positiveCoefficients != 0)
+			  {
+				g[i] = 1;
+				positiveCoefficients--;
+			  }
+			  else
+			  {
+				g[i] = 0;
+			  }
+			}
+		  }
+		}
+		
+		function computef()
+		{
+			var positiveCoefficients = df;
+		  var negativeCoefficients = df - 1;
+		  for(i = 0; i < N; i++)
+		  {
+			var tempRand = randomNumber();
+			if(tempRand % 2 == 0)
+			{
+				if(positiveCoefficients != 0)
+			  {
+				f[i] = 1;
+				positiveCoefficients--;
+			  }
+			  else if(negativeCoefficients != 0)
+			  {
+				f[i] = -1;
+				negativeCoefficients--;
+			  }
+			  else
+			  {
+				f[i] = 0;
+			  }
+			}
+			else
+			{
+				if(negativeCoefficients != 0)
+			  {
+				f[i] = -1;
+				negativeCoefficients--;
+			  }
+			  else if(positiveCoefficients != 0)
+			  {
+				f[i] = 1;
+				positiveCoefficients--;
+			  }
+			  else
+			  {
+				f[i] = 0;
+			  }
+			}
+		  }
+		}
+		
+		function main() {
+		  console.log("NTRUEncrypt JavaScript v0.1");
+		  console.log("Author Dajne Win");
+		  console.log("Sample Parameters");
+		  console.log("N = " + N);
+		  console.log("q = " + q);
+		  console.log("p = " + p);
+		  
+		  while(df === 0 && dg === 0)
+		  {
+			df = randomNumber() % (Math.floor(N/2));
+			dg = randomNumber() % (Math.floor(N/2));
+		  }
+		  
+		  console.log("df = " + df);
+		  console.log("dg = " + dg);
+		  
+		  computef();
+		  computep();
+		  console.log("f = " + f);
+		  console.log("g = " + g);
+		  
+		  console.log("1 mod q = " + (1 % q));
+		  console.log("1 mod p = " + (1 % p));
+		  console.log((1 / f[0]));
+		}
+    </script>
+</body>
+</html>
