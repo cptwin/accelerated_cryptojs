@@ -82,6 +82,56 @@ function main() {
 	runSeriesOfTests();*/
 }
 
+function setupForGPUTest() {
+	messageSizeString = "10KB";
+	writeToDiv('NTRU = ees401ep1');
+	runTests(401, 2048, 3);
+	init();
+	create();
+	getResults();
+	writeToDiv('NTRU = ees449ep1');
+	runTests(449, 2048, 3);
+	init();
+	create();
+	getResults();
+	writeToDiv('NTRU = ees677ep1');
+	runTests(677, 2048, 3);
+	init();
+	create();
+	getResults();
+	writeToDiv('NTRU = ees1087ep2');
+	runTests(1087, 2048, 3);
+	init();
+	create();
+	getResults();
+	writeToDiv('NTRU = ees541ep1');
+	runTests(541, 2048, 3);
+	init();
+	create();
+	getResults();
+	writeToDiv('NTRU = ees613ep1');
+	runTests(613, 2048, 3);	
+	init();
+	create();
+	getResults();
+	writeToDiv('NTRU = ees887ep1');
+	runTests(887, 2048, 3);
+	init();
+	create();
+	getResults();
+	writeToDiv('NTRU = ees1499ep1');
+	runTests(1499, 2048, 3);
+	init();
+	create();
+	getResults();
+}
+
+function runNTest() {
+	messageSizeString = "";
+	writeToDiv('<strong>Message Size = N</strong>');
+	runSeriesOfTests();
+}
+
 function run10KBTest() {
 	messageSizeString = "10KB";
 	writeToDiv('<strong>Message Size = ' + messageSizeString + '</strong>');
@@ -463,7 +513,11 @@ function calculatePolynomialF() {
 function generateMessage() {
 	//var messageSize = N;
 	var messageSize;
-	if(messageSizeString == "10KB")
+	if(messageSizeString == "")
+	{
+		messageSize = N;
+	}
+	else if(messageSizeString == "10KB")
 	{
 		messageSize = 10000;
 	} else if(messageSizeString == "500KB")
