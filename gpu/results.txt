@@ -1,0 +1,36 @@
+Loading NTRUEncryptJS...
+N = 11
+q = 32
+p = 3
+NTRUEncrypt.js:222 Setting number of coefficients...
+NTRUEncrypt.js:222 df = 4
+NTRUEncrypt.js:222 dg = 4
+NTRUEncrypt.js:222 Calculating Polynomial f...
+NTRUEncrypt.js:222 f = -1,0,-1,0,-1,1,1,1,0,0,1
+NTRUEncrypt.js:222 Calculating Polynomial g...
+NTRUEncrypt.js:222 g = 1,1,-1,-1,-1,0,-1,1,1,0,0
+NTRUEncrypt.js:222 Computing Polynomial Inverse fq...
+NTRUEncrypt.js:222 Computing Public Polynomial h...
+NTRUEncrypt.js:222 h = 2,17,30,11,8,21,20,3,21,26,1
+NTRUEncrypt.js:222 fp = 2,1,0,0,0,2,1,1,0,0,0
+NTRUEncrypt.js:222 fq = 10,19,28,30,29,27,18,24,24,26,22
+NTRUEncrypt.js:138 > #### Key Generation took 5.434999999999999ms
+NTRUEncrypt.js:173 plainText 11
+NTRUEncrypt.js:174 plainTextMessage 11
+NTRUEncrypt.js:222 Encrypting Message: -1,-1,1,-1,0,0,1,0,1,-1,1 | 11
+NTRUEncrypt.js:222 r = 1,-1,0,0,0,0,0,0,0,0,0
+NTRUEncrypt.js:138 > #### Encryption Setup took 0.3649999999999949ms
+NTRUEncrypt.js:138 > #### Encryption Convolution took 0.019999999999999574ms
+NTRUEncrypt.js:222 r*h = 1,15,13,-19,-3,13,-1,-17,18,5,-25
+NTRUEncrypt.js:222 e = 0,14,14,-20,-3,13,0,-17,19,4,-24
+NTRUEncrypt.js:138 > #### Encryption Addition took 0.37000000000000455ms
+NTRUEncrypt.js:197 CPU-e
+NTRUEncrypt.js:198 [0, 14, 14, 12, 29, 13, 0, 15, 19, 4, 8]
+NTRUEncrypt.js:222 Decrypting Message: 0,14,14,12,29,13,0,15,19,4,8
+NTRUEncrypt.js:222 a = 5,1,-4,1,1,5,-6,7,-4,-1,-5
+NTRUEncrypt.js:222 b = -1,1,-1,1,1,-1,0,1,-1,-1,1
+NTRUEncrypt.js:138 > #### Decryption took 0.6699999999999982ms
+NTRUEncrypt.js:222 Decrypted Message: -1,-1,1,-1,0,0,1,0,1,-1,1
+
+0, 14, 14, 12, 29, 13, 0, 15, 19, 4, 8
+0, 14, 14, 12, 29, 13, 0, 15, 19, 4, 8

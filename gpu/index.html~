@@ -1,0 +1,125 @@
+<html>
+	<head>
+		<title>My first Three.js app</title>
+		<style>
+			body { margin: 0; }
+			canvas { width: 100%; height: 100% }
+		</style>
+	</head>
+	<body>
+		
+		<script src="three.js"></script>
+		<script src="vertexShader.js"></script>
+		<script src="fragmentShader1.js"></script>
+		<script src="fragmentShader2.js"></script>
+		<script>
+			var height = 640;
+			var width = 480;
+			var scene = new THREE.Scene();
+			var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
+
+			var renderer = new THREE.WebGLRenderer();
+			if ( webglAvailable() ) {
+				    renderer = new THREE.WebGLRenderer();
+			    } else {
+				    renderer = new THREE.CanvasRenderer();
+			    }
+			    renderer.setSize(640, 480);
+				renderer.domElement.id = "canvas";
+	
+			    document.body.appendChild(renderer.domElement);
+
+			camera.position.z = 5;
+
+			var attributes = {  
+				aPosition: { type: 'v4', value: new THREE.Vector4() }
+			      };
+
+			var material_FS = new THREE.ShaderMaterial({
+				vertexShader: document.getElementById('vertexShader').textContent,
+				fragmentShader: document.getElementById('fragmentShader1').textContent
+			});
+
+			var mesh = new THREE.Mesh(geometry(), material_FS);
+			scene.add(mesh);
+
+			var convolutionTexture = new THREE.WebGLRenderTarget( 640, 480, renderTargetParams() );
+			/*var dataTexture = new THREE.DataTexture(new Uint8Array(4 * (height * width)),height,width,THREE.RGBAFormat);
+    			dataTexture.needsUpdate = true;
+			dataTexture.magFilter = THREE.NearestFilter;
+			dataTexture.minFilter = THREE.NearestFilter;*/
+
+			//renderer.render(scene, camera, convolutionTexture, true);
+			renderer.render(scene, camera);
+	
+			/*var uniforms2 = {
+					sTexture: { type: "t", value: dataTexture }
+			};*/
+
+			/*var render = function () {
+				requestAnimationFrame( render );
+
+				renderer.render(scene, camera);
+			};*/
+
+			//render();
+
+			var canvas = document.getElementById("canvas");
+			var ctx = canvas.getContext("experimental-webgl");
+			var pixels = new Float32Array(ctx.drawingBufferWidth * ctx.drawingBufferHeight * 4);
+			renderer.readRenderTargetPixels(convolutionTexture, 0, 0, width, height, pixels);
+			console.log(pixels);
+
+			function webglAvailable() {
+				try {
+					var canvas = document.createElement( 'canvas' );
+							canvas.id = "canvas";
+					return !!( window.WebGLRenderingContext && (
+						canvas.getContext( 'webgl' ) ||
+						canvas.getContext( 'experimental-webgl' ) )
+					);
+				} catch ( e ) {
+					return false;
+				}
+			}
+			
+			function renderTargetParams() {
+			    var renderTargetParams = {
+				    minFilter:THREE.LinearFilter,
+				    stencilBuffer:false,
+				    depthBuffer:false,
+				    precision: THREE.highp,
+				    type: THREE.FloatType
+			    };
+			    return renderTargetParams;
+			}
+
+			function geometry() {
+			    var geometry = new THREE.BufferGeometry();
+
+			    var vertexPositions = [
+				[-1.0, -1.0, 1.0],
+				[1.0, -1.0, 1.0],
+				[1.0, 1.0, 1.0],
+				[1.0, 1.0, 1.0],
+				[-1.0, 1.0, 1.0],
+				[-1.0, -1.0, 1.0]
+			    ];
+			    vertices = new Float32Array(vertexPositions.length * 3); // three components per vertex
+
+			    // components of the position vector for each vertex are stored
+			    // contiguously in the buffer.
+			    for (var i = 0; i < vertexPositions.length; i++)
+			    {
+				vertices[ i * 3 + 0 ] = vertexPositions[i][0];
+				vertices[ i * 3 + 1 ] = vertexPositions[i][1];
+				vertices[ i * 3 + 2 ] = vertexPositions[i][2];
+			    }
+
+			    geometry.addAttribute('position', new THREE.BufferAttribute(vertices, 3));
+			    geometry.addAttribute('aPosition', new THREE.BufferAttribute(vertices, 3));
+		            return geometry;
+			}
+		</script>
+	</body>
+</html>
