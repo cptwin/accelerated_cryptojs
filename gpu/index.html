@@ -7,6 +7,16 @@
 		</style>
 	</head>
 	<body>
+		<button type="submit" onclick="N11();" >NTRU = 11, 32, 3</button>
+		<button type="submit" onclick="N401();" >NTRU = ees401ep1</button>
+		<button type="submit" onclick="N449();" >NTRU = ees449ep1</button>
+		<button type="submit" onclick="N541();" >NTRU = ees541ep1</button>
+		<button type="submit" onclick="N613();" >NTRU = ees613ep1</button>
+		<button type="submit" onclick="N677();" >NTRU = ees677ep1</button>
+		<button type="submit" onclick="N887();" >NTRU = ees887ep1</button>
+		<button type="submit" onclick="N1087();" >NTRU = ees1087ep2</button>
+		<button type="submit" onclick="N1499();" >NTRU = ees1499ep1</button>
+		
 		<div id="outputDiv"></div>
 	
 		<script src="NTRUEncrypt.js"></script>
@@ -72,132 +82,158 @@
 			
 			var outputDiv = document.getElementById('outputDiv');
 			
-			writeToDiv('NTRU = 11, 32, 3');
-			runTests(11, 32, 3);
+			function N11() {
+				writeToDiv('NTRU = 11, 32, 3');
+				runTests(11, 32, 3);
+				
+				var startTiming = performance.now();
+				NTRUEncryptGPUEncryption();
+				var currentTiming = performance.now();
+				var output = "> #### GPU-Encryption took " + (currentTiming - startTiming) + "ms";
+				outputDiv.innerHTML = outputDiv.innerHTML + '<p>' + output + '</p>';
+				
+				startTiming = performance.now();
+				NTRUEncryptGPUDecryption();
+				currentTiming = performance.now();
+				output = "> #### GPU-Decryption took " + (currentTiming - startTiming) + "ms";
+				outputDiv.innerHTML = outputDiv.innerHTML + '<p>' + output + '</p>';
+			}
 			
-			var startTiming = performance.now();
-			NTRUEncryptGPUEncryption();
-			var currentTiming = performance.now();
-			var output = "> #### GPU-Encryption took " + (currentTiming - startTiming) + "ms";
-			outputDiv.innerHTML = outputDiv.innerHTML + '<p>' + output + '</p>';
+			function N401() {
+				writeToDiv('NTRU = ees401ep1');
+				runTests(401, 2048, 3);
+				
+				var startTiming = performance.now();
+				NTRUEncryptGPUEncryption();
+				var currentTiming = performance.now();
+				var output = "> #### GPU-Encryption took " + (currentTiming - startTiming) + "ms";
+				outputDiv.innerHTML = outputDiv.innerHTML + '<p>' + output + '</p>';
+				
+				startTiming = performance.now();
+				NTRUEncryptGPUDecryption();
+				currentTiming = performance.now();
+				output = "> #### GPU-Decryption took " + (currentTiming - startTiming) + "ms";
+				outputDiv.innerHTML = outputDiv.innerHTML + '<p>' + output + '</p>';
+			}
 			
-			startTiming = performance.now();
-			NTRUEncryptGPUDecryption();
-			currentTiming = performance.now();
-			output = "> #### GPU-Decryption took " + (currentTiming - startTiming) + "ms";
-			outputDiv.innerHTML = outputDiv.innerHTML + '<p>' + output + '</p>';
+			function N449() {
+				writeToDiv('NTRU = ees449ep1');
+				runTests(449, 2048, 3);
+				
+				var startTiming = performance.now();
+				NTRUEncryptGPUEncryption();
+				var currentTiming = performance.now();
+				var output = "> #### GPU-Encryption took " + (currentTiming - startTiming) + "ms";
+				outputDiv.innerHTML = outputDiv.innerHTML + '<p>' + output + '</p>';
+				
+				startTiming = performance.now();
+				NTRUEncryptGPUDecryption();
+				currentTiming = performance.now();
+				output = "> #### GPU-Decryption took " + (currentTiming - startTiming) + "ms";
+				outputDiv.innerHTML = outputDiv.innerHTML + '<p>' + output + '</p>';
+			}
 			
-			writeToDiv('NTRU = ees401ep1');
-			runTests(401, 2048, 3);
-			startTiming = performance.now();
-			NTRUEncryptGPUEncryption();
-			currentTiming = performance.now();
-			output = "> #### GPU-Encryption took " + (currentTiming - startTiming) + "ms";
-			outputDiv.innerHTML = outputDiv.innerHTML + '<p>' + output + '</p>';
+			function N541() {
+				writeToDiv('NTRU = ees541ep1');
+				runTests(541, 2048, 3);
+				
+				var startTiming = performance.now();
+				NTRUEncryptGPUEncryption();
+				var currentTiming = performance.now();
+				var output = "> #### GPU-Encryption took " + (currentTiming - startTiming) + "ms";
+				outputDiv.innerHTML = outputDiv.innerHTML + '<p>' + output + '</p>';
+				
+				startTiming = performance.now();
+				NTRUEncryptGPUDecryption();
+				currentTiming = performance.now();
+				output = "> #### GPU-Decryption took " + (currentTiming - startTiming) + "ms";
+				outputDiv.innerHTML = outputDiv.innerHTML + '<p>' + output + '</p>';
+			}
 			
-			startTiming = performance.now();
-			NTRUEncryptGPUDecryption();
-			currentTiming = performance.now();
-			output = "> #### GPU-Decryption took " + (currentTiming - startTiming) + "ms";
-			outputDiv.innerHTML = outputDiv.innerHTML + '<p>' + output + '</p>';
+			function N613() {
+				writeToDiv('NTRU = ees613ep1');
+				runTests(613, 2048, 3);
+				
+				var startTiming = performance.now();
+				NTRUEncryptGPUEncryption();
+				var currentTiming = performance.now();
+				var output = "> #### GPU-Encryption took " + (currentTiming - startTiming) + "ms";
+				outputDiv.innerHTML = outputDiv.innerHTML + '<p>' + output + '</p>';
+				
+				startTiming = performance.now();
+				NTRUEncryptGPUDecryption();
+				currentTiming = performance.now();
+				output = "> #### GPU-Decryption took " + (currentTiming - startTiming) + "ms";
+				outputDiv.innerHTML = outputDiv.innerHTML + '<p>' + output + '</p>';
+			}
 			
-			writeToDiv('NTRU = ees449ep1');
-			runTests(449, 2048, 3);
-			startTiming = performance.now();
-			NTRUEncryptGPUEncryption();
-			currentTiming = performance.now();
-			output = "> #### GPU-Encryption took " + (currentTiming - startTiming) + "ms";
-			outputDiv.innerHTML = outputDiv.innerHTML + '<p>' + output + '</p>';
+			function N677() {
+				writeToDiv('NTRU = ees677ep1');
+				runTests(677, 2048, 3);
+				
+				var startTiming = performance.now();
+				NTRUEncryptGPUEncryption();
+				var currentTiming = performance.now();
+				var output = "> #### GPU-Encryption took " + (currentTiming - startTiming) + "ms";
+				outputDiv.innerHTML = outputDiv.innerHTML + '<p>' + output + '</p>';
+				
+				startTiming = performance.now();
+				NTRUEncryptGPUDecryption();
+				currentTiming = performance.now();
+				output = "> #### GPU-Decryption took " + (currentTiming - startTiming) + "ms";
+				outputDiv.innerHTML = outputDiv.innerHTML + '<p>' + output + '</p>';
+			}
 			
-			startTiming = performance.now();
-			NTRUEncryptGPUDecryption();
-			currentTiming = performance.now();
-			output = "> #### GPU-Decryption took " + (currentTiming - startTiming) + "ms";
-			outputDiv.innerHTML = outputDiv.innerHTML + '<p>' + output + '</p>';
+			function N887() {
+				writeToDiv('NTRU = ees887ep1');
+				runTests(887, 2048, 3);
+				
+				var startTiming = performance.now();
+				NTRUEncryptGPUEncryption();
+				var currentTiming = performance.now();
+				var output = "> #### GPU-Encryption took " + (currentTiming - startTiming) + "ms";
+				outputDiv.innerHTML = outputDiv.innerHTML + '<p>' + output + '</p>';
+				
+				startTiming = performance.now();
+				NTRUEncryptGPUDecryption();
+				currentTiming = performance.now();
+				output = "> #### GPU-Decryption took " + (currentTiming - startTiming) + "ms";
+				outputDiv.innerHTML = outputDiv.innerHTML + '<p>' + output + '</p>';
+			}
 			
-			writeToDiv('NTRU = ees541ep1');
-			runTests(541, 2048, 3);
-			startTiming = performance.now();
-			NTRUEncryptGPUEncryption();
-			currentTiming = performance.now();
-			output = "> #### GPU-Encryption took " + (currentTiming - startTiming) + "ms";
-			outputDiv.innerHTML = outputDiv.innerHTML + '<p>' + output + '</p>';
+			function N1087() {
+				writeToDiv('NTRU = ees1087ep2');
+				runTests(1087, 2048, 3);
+				
+				var startTiming = performance.now();
+				NTRUEncryptGPUEncryption();
+				var currentTiming = performance.now();
+				var output = "> #### GPU-Encryption took " + (currentTiming - startTiming) + "ms";
+				outputDiv.innerHTML = outputDiv.innerHTML + '<p>' + output + '</p>';
+				
+				startTiming = performance.now();
+				NTRUEncryptGPUDecryption();
+				currentTiming = performance.now();
+				output = "> #### GPU-Decryption took " + (currentTiming - startTiming) + "ms";
+				outputDiv.innerHTML = outputDiv.innerHTML + '<p>' + output + '</p>';
+			}
 			
-			startTiming = performance.now();
-			NTRUEncryptGPUDecryption();
-			currentTiming = performance.now();
-			output = "> #### GPU-Decryption took " + (currentTiming - startTiming) + "ms";
-			outputDiv.innerHTML = outputDiv.innerHTML + '<p>' + output + '</p>';
-			
-			writeToDiv('NTRU = ees613ep1');
-			runTests(613, 2048, 3);
-			startTiming = performance.now();
-			NTRUEncryptGPUEncryption();
-			currentTiming = performance.now();
-			output = "> #### GPU-Encryption took " + (currentTiming - startTiming) + "ms";
-			outputDiv.innerHTML = outputDiv.innerHTML + '<p>' + output + '</p>';
-			
-			startTiming = performance.now();
-			NTRUEncryptGPUDecryption();
-			currentTiming = performance.now();
-			output = "> #### GPU-Decryption took " + (currentTiming - startTiming) + "ms";
-			outputDiv.innerHTML = outputDiv.innerHTML + '<p>' + output + '</p>';
-			
-			writeToDiv('NTRU = ees677ep1');
-			runTests(677, 2048, 3);
-			startTiming = performance.now();
-			NTRUEncryptGPUEncryption();
-			currentTiming = performance.now();
-			output = "> #### GPU-Encryption took " + (currentTiming - startTiming) + "ms";
-			outputDiv.innerHTML = outputDiv.innerHTML + '<p>' + output + '</p>';
-			
-			startTiming = performance.now();
-			NTRUEncryptGPUDecryption();
-			currentTiming = performance.now();
-			output = "> #### GPU-Decryption took " + (currentTiming - startTiming) + "ms";
-			outputDiv.innerHTML = outputDiv.innerHTML + '<p>' + output + '</p>';
-			
-			writeToDiv('NTRU = ees887ep1');
-			runTests(887, 2048, 3);
-			startTiming = performance.now();
-			NTRUEncryptGPUEncryption();
-			currentTiming = performance.now();
-			output = "> #### GPU-Encryption took " + (currentTiming - startTiming) + "ms";
-			outputDiv.innerHTML = outputDiv.innerHTML + '<p>' + output + '</p>';
-			
-			startTiming = performance.now();
-			NTRUEncryptGPUDecryption();
-			currentTiming = performance.now();
-			output = "> #### GPU-Decryption took " + (currentTiming - startTiming) + "ms";
-			outputDiv.innerHTML = outputDiv.innerHTML + '<p>' + output + '</p>';
-			
-			writeToDiv('NTRU = ees1087ep2');
-			runTests(1087, 2048, 3);	
-			startTiming = performance.now();
-			NTRUEncryptGPUEncryption();
-			currentTiming = performance.now();
-			output = "> #### GPU-Encryption took " + (currentTiming - startTiming) + "ms";
-			outputDiv.innerHTML = outputDiv.innerHTML + '<p>' + output + '</p>';
-			
-			startTiming = performance.now();
-			NTRUEncryptGPUDecryption();
-			currentTiming = performance.now();
-			output = "> #### GPU-Decryption took " + (currentTiming - startTiming) + "ms";
-			outputDiv.innerHTML = outputDiv.innerHTML + '<p>' + output + '</p>';
-			
-			writeToDiv('NTRU = ees1499ep1');
-			runTests(1499, 2048, 3);
-			startTiming = performance.now();
-			NTRUEncryptGPUEncryption();
-			currentTiming = performance.now();
-			output = "> #### GPU-Encryption took " + (currentTiming - startTiming) + "ms";
-			outputDiv.innerHTML = outputDiv.innerHTML + '<p>' + output + '</p>';
-			
-			startTiming = performance.now();
-			NTRUEncryptGPUDecryption();
-			currentTiming = performance.now();
-			output = "> #### GPU-Decryption took " + (currentTiming - startTiming) + "ms";
-			outputDiv.innerHTML = outputDiv.innerHTML + '<p>' + output + '</p>';
+			function N1499() {
+				writeToDiv('NTRU = ees1499ep1');
+				runTests(1499, 2048, 3);
+				
+				var startTiming = performance.now();
+				NTRUEncryptGPUEncryption();
+				var currentTiming = performance.now();
+				var output = "> #### GPU-Encryption took " + (currentTiming - startTiming) + "ms";
+				outputDiv.innerHTML = outputDiv.innerHTML + '<p>' + output + '</p>';
+				
+				startTiming = performance.now();
+				NTRUEncryptGPUDecryption();
+				currentTiming = performance.now();
+				output = "> #### GPU-Decryption took " + (currentTiming - startTiming) + "ms";
+				outputDiv.innerHTML = outputDiv.innerHTML + '<p>' + output + '</p>';
+			}
 			
 			/*main();
 			NTRUEncryptGPUEncryption();
