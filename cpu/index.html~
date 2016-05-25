@@ -1,0 +1,600 @@
+<html>
+	<head>
+		<title>My first Three.js app</title>
+		<style>
+			body { margin: 0; }
+			canvas { width: 100%; height: 100% }
+		</style>
+	</head>
+	<body>
+		<div id="outputDiv"></div>
+	
+		<script src="NTRUEncrypt.js"></script>
+		
+		<script src="three.js"></script>
+		<script src="vertexShader.js"></script>
+		
+		<script src="fragmentShaderEncryptionConvolution11.js"></script>
+		<script src="fragmentShaderEncryptionAddition11.js"></script>
+		<script src="fragmentShaderDecryptionConvolution11.js"></script>
+		<script src="fragmentShaderDecryptionFinalConvolution11.js"></script>
+		
+		<script src="fragmentShaderEncryptionConvolution401.js"></script>
+		<script src="fragmentShaderEncryptionAddition401.js"></script>
+		<script src="fragmentShaderDecryptionConvolution401.js"></script>
+		<script src="fragmentShaderDecryptionFinalConvolution401.js"></script>
+		
+		<script src="fragmentShaderEncryptionConvolution449.js"></script>
+		<script src="fragmentShaderEncryptionAddition449.js"></script>
+		<script src="fragmentShaderDecryptionConvolution449.js"></script>
+		<script src="fragmentShaderDecryptionFinalConvolution449.js"></script>
+		
+		<script src="fragmentShaderEncryptionConvolution541.js"></script>
+		<script src="fragmentShaderEncryptionAddition541.js"></script>
+		<script src="fragmentShaderDecryptionConvolution541.js"></script>
+		<script src="fragmentShaderDecryptionFinalConvolution541.js"></script>
+		
+		<script src="fragmentShaderEncryptionConvolution613.js"></script>
+		<script src="fragmentShaderEncryptionAddition613.js"></script>
+		<script src="fragmentShaderDecryptionConvolution613.js"></script>
+		<script src="fragmentShaderDecryptionFinalConvolution613.js"></script>
+		
+		<script src="fragmentShaderEncryptionConvolution677.js"></script>
+		<script src="fragmentShaderEncryptionAddition677.js"></script>
+		<script src="fragmentShaderDecryptionConvolution677.js"></script>
+		<script src="fragmentShaderDecryptionFinalConvolution677.js"></script>
+		
+		<script src="fragmentShaderEncryptionConvolution887.js"></script>
+		<script src="fragmentShaderEncryptionAddition887.js"></script>
+		<script src="fragmentShaderDecryptionConvolution887.js"></script>
+		<script src="fragmentShaderDecryptionFinalConvolution887.js"></script>
+		
+		<script src="fragmentShaderEncryptionConvolution1087.js"></script>
+		<script src="fragmentShaderEncryptionAddition1087.js"></script>
+		<script src="fragmentShaderDecryptionConvolution1087.js"></script>
+		<script src="fragmentShaderDecryptionFinalConvolution1087.js"></script>
+		
+		<script src="fragmentShaderEncryptionConvolution1499.js"></script>
+		<script src="fragmentShaderEncryptionAddition1499.js"></script>
+		<script src="fragmentShaderDecryptionConvolution1499.js"></script>
+		<script src="fragmentShaderDecryptionFinalConvolution1499.js"></script>
+		<script>
+			function arraysEqual(arr1, arr2) {
+				if(arr1.length !== arr2.length)
+					return false;
+				for(var i = arr1.length; i--;) {
+					if(arr1[i] !== arr2[i])
+						return false;
+				}
+
+				return true;
+			}
+			
+			var outputDiv = document.getElementById('outputDiv');
+			
+			//writeToDiv('NTRU = 11, 32, 3');
+			//runTests(11, 32, 3);
+			
+			var startTiming = performance.now();
+			//NTRUEncryptGPUEncryption();
+			var currentTiming = performance.now();
+			var output = "> #### GPU-Encryption took " + (currentTiming - startTiming) + "ms";
+			//outputDiv.innerHTML = outputDiv.innerHTML + '<p>' + output + '</p>';
+			
+			/*startTiming = performance.now();
+			NTRUEncryptGPUDecryption();
+			currentTiming = performance.now();
+			output = "> #### GPU-Decryption took " + (currentTiming - startTiming) + "ms";
+			outputDiv.innerHTML = outputDiv.innerHTML + '<p>' + output + '</p>';*/
+			
+			writeToDiv('NTRU = ees401ep1');
+			runTests(401, 2048, 3);
+			startTiming = performance.now();
+			NTRUEncryptGPUEncryption();
+			currentTiming = performance.now();
+			output = "> #### GPU-Encryption took " + (currentTiming - startTiming) + "ms";
+			outputDiv.innerHTML = outputDiv.innerHTML + '<p>' + output + '</p>';
+			
+			startTiming = performance.now();
+			NTRUEncryptGPUDecryption();
+			currentTiming = performance.now();
+			output = "> #### GPU-Decryption took " + (currentTiming - startTiming) + "ms";
+			outputDiv.innerHTML = outputDiv.innerHTML + '<p>' + output + '</p>';
+			
+			/*writeToDiv('NTRU = ees449ep1');
+			runTests(449, 2048, 3);
+			startTiming = performance.now();
+			NTRUEncryptGPUEncryption();
+			currentTiming = performance.now();
+			output = "> #### GPU-Encryption took " + (currentTiming - startTiming) + "ms";
+			outputDiv.innerHTML = outputDiv.innerHTML + '<p>' + output + '</p>';
+			
+			startTiming = performance.now();
+			NTRUEncryptGPUDecryption();
+			currentTiming = performance.now();
+			output = "> #### GPU-Decryption took " + (currentTiming - startTiming) + "ms";
+			outputDiv.innerHTML = outputDiv.innerHTML + '<p>' + output + '</p>';
+			
+			writeToDiv('NTRU = ees541ep1');
+			runTests(541, 2048, 3);
+			startTiming = performance.now();
+			NTRUEncryptGPUEncryption();
+			currentTiming = performance.now();
+			output = "> #### GPU-Encryption took " + (currentTiming - startTiming) + "ms";
+			outputDiv.innerHTML = outputDiv.innerHTML + '<p>' + output + '</p>';
+			
+			startTiming = performance.now();
+			NTRUEncryptGPUDecryption();
+			currentTiming = performance.now();
+			output = "> #### GPU-Decryption took " + (currentTiming - startTiming) + "ms";
+			outputDiv.innerHTML = outputDiv.innerHTML + '<p>' + output + '</p>';
+			
+			writeToDiv('NTRU = ees613ep1');
+			runTests(613, 2048, 3);
+			startTiming = performance.now();
+			NTRUEncryptGPUEncryption();
+			currentTiming = performance.now();
+			output = "> #### GPU-Encryption took " + (currentTiming - startTiming) + "ms";
+			outputDiv.innerHTML = outputDiv.innerHTML + '<p>' + output + '</p>';
+			
+			startTiming = performance.now();
+			NTRUEncryptGPUDecryption();
+			currentTiming = performance.now();
+			output = "> #### GPU-Decryption took " + (currentTiming - startTiming) + "ms";
+			outputDiv.innerHTML = outputDiv.innerHTML + '<p>' + output + '</p>';
+			
+			writeToDiv('NTRU = ees677ep1');
+			runTests(677, 2048, 3);
+			startTiming = performance.now();
+			NTRUEncryptGPUEncryption();
+			currentTiming = performance.now();
+			output = "> #### GPU-Encryption took " + (currentTiming - startTiming) + "ms";
+			outputDiv.innerHTML = outputDiv.innerHTML + '<p>' + output + '</p>';
+			
+			startTiming = performance.now();
+			NTRUEncryptGPUDecryption();
+			currentTiming = performance.now();
+			output = "> #### GPU-Decryption took " + (currentTiming - startTiming) + "ms";
+			outputDiv.innerHTML = outputDiv.innerHTML + '<p>' + output + '</p>';
+			
+			writeToDiv('NTRU = ees887ep1');
+			runTests(887, 2048, 3);
+			startTiming = performance.now();
+			NTRUEncryptGPUEncryption();
+			currentTiming = performance.now();
+			output = "> #### GPU-Encryption took " + (currentTiming - startTiming) + "ms";
+			outputDiv.innerHTML = outputDiv.innerHTML + '<p>' + output + '</p>';
+			
+			startTiming = performance.now();
+			NTRUEncryptGPUDecryption();
+			currentTiming = performance.now();
+			output = "> #### GPU-Decryption took " + (currentTiming - startTiming) + "ms";
+			outputDiv.innerHTML = outputDiv.innerHTML + '<p>' + output + '</p>';
+			
+			writeToDiv('NTRU = ees1087ep2');
+			runTests(1087, 2048, 3);	
+			startTiming = performance.now();
+			NTRUEncryptGPUEncryption();
+			currentTiming = performance.now();
+			output = "> #### GPU-Encryption took " + (currentTiming - startTiming) + "ms";
+			outputDiv.innerHTML = outputDiv.innerHTML + '<p>' + output + '</p>';
+			
+			startTiming = performance.now();
+			NTRUEncryptGPUDecryption();
+			currentTiming = performance.now();
+			output = "> #### GPU-Decryption took " + (currentTiming - startTiming) + "ms";
+			outputDiv.innerHTML = outputDiv.innerHTML + '<p>' + output + '</p>';*/
+			
+			/*writeToDiv('NTRU = ees1499ep1');
+			runTests(1499, 2048, 3);
+			startTiming = performance.now();
+			NTRUEncryptGPUEncryption();
+			currentTiming = performance.now();
+			output = "> #### GPU-Encryption took " + (currentTiming - startTiming) + "ms";
+			outputDiv.innerHTML = outputDiv.innerHTML + '<p>' + output + '</p>';
+			
+			startTiming = performance.now();
+			NTRUEncryptGPUDecryption();
+			currentTiming = performance.now();
+			output = "> #### GPU-Decryption took " + (currentTiming - startTiming) + "ms";
+			outputDiv.innerHTML = outputDiv.innerHTML + '<p>' + output + '</p>';*/
+			
+			/*main();
+			NTRUEncryptGPUEncryption();
+			NTRUEncryptGPUDecryption();*/
+			function NTRUEncryptGPUEncryption()
+			{
+				var height = 1;
+				var width = N;
+				var scene = new THREE.Scene();
+				var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
+
+				var renderer = new THREE.WebGLRenderer();
+				if ( webglAvailable() ) {
+						renderer = new THREE.WebGLRenderer();
+					} else {
+						renderer = new THREE.CanvasRenderer();
+					}
+					renderer.setSize(width, height);
+					renderer.domElement.id = "canvas-gpu-encryption-" + width;
+		
+					document.body.appendChild(renderer.domElement);
+
+				camera.position.z = 5;
+
+				var attributes = {  
+					aPosition: { type: 'v4', value: new THREE.Vector4() }
+				};
+				
+				var publicKeyHFA = new Float32Array(h);
+				var randomPolynomialRFA = new Float32Array(randomPolynomialR);
+				//var publicKeyHFA = new Float32Array([2.0,17.0,30.0,11.0,8.0,21.0,20.0,3.0,21.0,26.0,1.0]);
+				//var randomPolynomialRFA = new Float32Array([1,-1,0,0,0,0,0,0,0,0,0]);
+				
+				myUniforms1 = {
+				  publicKeyH: { type: "fv1", value: publicKeyHFA },
+				  randomPolynomialR: { type: "fv1", value: randomPolynomialRFA }
+				};
+
+				var material_FS = new THREE.ShaderMaterial({
+					uniforms: myUniforms1,
+					vertexShader: document.getElementById('vertexShader').textContent,
+					fragmentShader: document.getElementById('fragmentShaderEncryptionConvolution'+N).textContent
+				});
+
+				var mesh = new THREE.Mesh(geometry(), material_FS);
+				scene.add(mesh);
+
+				var convolutionTexture = new THREE.WebGLRenderTarget( width, height, renderTargetParams() );
+
+				var startTiming = performance.now();
+				renderer.render(scene, camera, convolutionTexture, true);
+				var currentTiming = performance.now();
+				var output = "> #### GPU-Polynomial-Convolution-Encryption took " + (currentTiming - startTiming) + "ms";
+				outputDiv.innerHTML = outputDiv.innerHTML + '<p>' + output + '</p>';
+				
+				var someMessage = new Float32Array(plainTextMessage);
+				//var someMessage = new Float32Array([-1,-1,1,-1,0,0,1,0,1,-1,1]);
+				
+				myUniforms = {
+				  sTexture: { type: "t", value: convolutionTexture },
+				  message: { type: "fv1", value: someMessage }
+				};
+				
+				var material2 = new THREE.ShaderMaterial({
+					uniforms: myUniforms,
+					vertexShader: document.getElementById('vertexShader').textContent,
+					fragmentShader: document.getElementById('fragmentShaderEncryptionAddition'+N).textContent
+				});
+				
+				var mesh2 = new THREE.Mesh(geometry(), material2);
+				scene.add(mesh2);
+				
+				var convolutionTexture2 = new THREE.WebGLRenderTarget( width, height, renderTargetParams() );
+				
+				var startTiming = performance.now();
+				renderer.render(scene, camera, convolutionTexture2, true);
+				var currentTiming = performance.now();
+				var output = "> #### GPU-Polynomial-Addition-Encryption took " + (currentTiming - startTiming) + "ms";
+				outputDiv.innerHTML = outputDiv.innerHTML + '<p>' + output + '</p>';
+
+				var canvas = document.getElementById("canvas-gpu-encryption-" + width);
+				var ctx = canvas.getContext("experimental-webgl");
+				var pixels = new Float32Array(ctx.drawingBufferWidth * ctx.drawingBufferHeight * 4);
+				renderer.readRenderTargetPixels(convolutionTexture, 0, 0, width, height, pixels);
+				//console.log(pixels);
+				
+				renderer.readRenderTargetPixels(convolutionTexture2, 0, 0, width, height, pixels);
+				var rxhpm = [];
+				var counter = 0;
+				for(var i = 1; i < pixels.length; i+=4)
+				{
+					rxhpm[counter] = pixels[i];
+					counter++;
+				}
+				console.log("Result of Addition: ");
+				console.log(rxhpm);
+				
+				if(arraysEqual(cipherText,rxhpm))
+				{
+					writeToDiv(">> NTRUEncrypt-GPU-Encryption Passed");
+					//window.alert("Encryption is Correct for NTRUEncrypt-GPU-" + N);
+				}
+				else
+				{
+					writeToDiv("<strong>!! NTRUEncrypt-GPU-Encryption FAILED</strong>");
+					//window.alert("Encryption failed for NTRUEncrypt-GPU-" + N);
+				}
+				
+				rxhpm = [];
+				counter = 0;
+				for(var i = 0; i < pixels.length; i+=4)
+				{
+					rxhpm[counter] = pixels[i];
+					counter++;
+				}
+				/*console.log("What was passed from fragShader1: ");
+				console.log(rxhpm);*/
+				
+				rxhpm = [];
+				counter = 0;
+				for(var i = 2; i < pixels.length; i+=4)
+				{
+					rxhpm[counter] = pixels[i];
+					counter++;
+				}
+				/*console.log("fragShader2 Message: ");
+				console.log(rxhpm);*/
+
+				function webglAvailable() {
+					try {
+						var canvas = document.createElement( 'canvas' );
+								canvas.id = "canvas-gpu-encryption-" + width;
+						return !!( window.WebGLRenderingContext && (
+							canvas.getContext( 'webgl' ) ||
+							canvas.getContext( 'experimental-webgl' ) )
+						);
+					} catch ( e ) {
+						return false;
+					}
+				}
+				
+				function renderTargetParams() {
+					var renderTargetParams = {
+						minFilter:THREE.LinearFilter,
+						stencilBuffer:false,
+						depthBuffer:false,
+						precision: THREE.highp,
+						type: THREE.FloatType
+					};
+					return renderTargetParams;
+				}
+
+				function geometry() {
+					var geometry = new THREE.BufferGeometry();
+
+					var vertexPositions = [
+					[-1.0, -1.0, 1.0],
+					[1.0, -1.0, 1.0],
+					[1.0, 1.0, 1.0],
+					[1.0, 1.0, 1.0],
+					[-1.0, 1.0, 1.0],
+					[-1.0, -1.0, 1.0]
+					];
+					vertices = new Float32Array(vertexPositions.length * 3); // three components per vertex
+
+					// components of the position vector for each vertex are stored
+					// contiguously in the buffer.
+					for (var i = 0; i < vertexPositions.length; i++)
+					{
+					vertices[ i * 3 + 0 ] = vertexPositions[i][0];
+					vertices[ i * 3 + 1 ] = vertexPositions[i][1];
+					vertices[ i * 3 + 2 ] = vertexPositions[i][2];
+					}
+
+					geometry.addAttribute('position', new THREE.BufferAttribute(vertices, 3));
+					geometry.addAttribute('aPosition', new THREE.BufferAttribute(vertices, 3));
+						return geometry;
+				}
+			}
+			function NTRUEncryptGPUDecryption()
+			{
+				var height = 1;
+				var width = N;
+				var scene = new THREE.Scene();
+				var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
+
+				var renderer = new THREE.WebGLRenderer();
+				if ( webglAvailable() ) {
+						renderer = new THREE.WebGLRenderer();
+					} else {
+						renderer = new THREE.CanvasRenderer();
+					}
+					renderer.setSize(width, height);
+					renderer.domElement.id = "canvas-gpu-encryption-" + width;
+		
+					document.body.appendChild(renderer.domElement);
+
+				camera.position.z = 5;
+
+				var attributes = {  
+					aPosition: { type: 'v4', value: new THREE.Vector4() }
+				};
+				
+				
+				var e = new Float32Array(cipherText);
+				var privateF = new Float32Array(f);
+				//var e = new Float32Array([0, 14, 14, 12, 29, 13, 0, 15, 19, 4, 8]);
+				//var f = new Float32Array([-1,0,-1,0,-1,1,1,1,0,0,1]);
+				
+				myUniforms1 = {
+				  cipherText: { type: "fv1", value: e },
+				  privateF: { type: "fv1", value: privateF }
+				};
+
+				var material_FS = new THREE.ShaderMaterial({
+					uniforms: myUniforms1,
+					vertexShader: document.getElementById('vertexShader').textContent,
+					fragmentShader: document.getElementById('fragmentShaderDecryptionConvolution'+N).textContent
+				});
+
+				var mesh = new THREE.Mesh(geometry(), material_FS);
+				scene.add(mesh);
+
+				var convolutionTexture = new THREE.WebGLRenderTarget( width, height, renderTargetParams() );
+				/*var dataTexture = new THREE.DataTexture(new Uint8Array(4 * (height * width)),height,width,THREE.RGBAFormat);
+					dataTexture.needsUpdate = true;
+				dataTexture.magFilter = THREE.NearestFilter;
+				dataTexture.minFilter = THREE.NearestFilter;*/
+				
+				var startTiming = performance.now();
+				renderer.render(scene, camera, convolutionTexture, true);
+				var currentTiming = performance.now();
+				var output = "> #### GPU-Polynomial-Convolution-Decryption (f*e mod q) took " + (currentTiming - startTiming) + "ms";
+				outputDiv.innerHTML = outputDiv.innerHTML + '<p>' + output + '</p>';
+
+				var canvas = document.getElementById("canvas-gpu-encryption-" + width);
+				var ctx = canvas.getContext("experimental-webgl");
+				var pixels = new Float32Array(ctx.drawingBufferWidth * ctx.drawingBufferHeight * 4);
+				renderer.readRenderTargetPixels(convolutionTexture, 0, 0, width, height, pixels);
+				rxhpm = [];
+				counter = 0;
+				for(var i = 0; i < pixels.length; i+=4)
+				{
+					rxhpm[counter] = pixels[i];
+					counter++;
+				}
+				for(i = 0; i < rxhpm.length; i++)
+				{
+					while(rxhpm[i] < (0-Math.floor((q-1)/2)) || rxhpm[i] > (q/2))
+					{
+						if(rxhpm[i] < (0-Math.floor((q-1)/2)))
+						{
+							rxhpm[i] = rxhpm[i] + q;
+						}
+						else if(rxhpm[i] > (q/2))
+						{
+									rxhpm[i] = rxhpm[i] - q;
+						}
+					}
+				}
+				console.log("Result of Convolution: ");
+				console.log(rxhpm);
+				
+				var b = rxhpm;
+				for(i = 0; i < b.length; i++)
+				{
+					while(b[i] < -1 || b[i] > 1)
+					{
+						b[i] = b[i] % p;
+						if(b[i] < -1)
+						{
+							b[i] += p;
+						}
+						else if(b[i] > 1)
+						{
+							b[i] -= p;
+						}
+					}
+				}
+				
+				console.log("b = ");
+				console.log(b);
+				
+				var privateFinverseP = new Float32Array(fp);
+				var bFloatArray = new Float32Array(b);
+				
+				myUniforms = {
+				  fp: { type: "fv1", value: privateFinverseP },
+				  b: { type: "fv1", value: bFloatArray }
+				};
+				
+				var material2 = new THREE.ShaderMaterial({
+					uniforms: myUniforms,
+					vertexShader: document.getElementById('vertexShader').textContent,
+					fragmentShader: document.getElementById('fragmentShaderDecryptionFinalConvolution' + N).textContent
+				});
+				
+				var mesh2 = new THREE.Mesh(geometry(), material2);
+				scene.add(mesh2);
+				
+				var convolutionTexture2 = new THREE.WebGLRenderTarget( width, height, renderTargetParams() );
+				
+				var startTiming = performance.now();
+				renderer.render(scene, camera, convolutionTexture2, true);
+				var currentTiming = performance.now();
+				var output = "> #### GPU-Polynomial-Convolution-Decryption (fp*b mod p) took " + (currentTiming - startTiming) + "ms";
+				outputDiv.innerHTML = outputDiv.innerHTML + '<p>' + output + '</p>';
+				
+				renderer.readRenderTargetPixels(convolutionTexture2, 0, 0, width, height, pixels);
+				var rxhpm = [];
+				var counter = 0;
+				for(var i = 0; i < pixels.length; i+=4)
+				{
+					rxhpm[counter] = pixels[i];
+					counter++;
+				}
+				var c = rxhpm;
+				for(i = 0; i < c.length; i++)
+				{
+					while(c[i] < -1 || c[i] > 1)
+					{
+						c[i] = c[i] % p;
+						if(c[i] < -1)
+						{
+							c[i] += p;
+						}
+						else if(c[i] > 1)
+						{
+							c[i] -= p;
+						}
+					}
+				}
+				console.log("Decrypted Plaintext: ");
+				console.log(c);
+				
+				if(arraysEqual(plainTextMessage,c))
+				{
+					writeToDiv(">> NTRUEncrypt-GPU-Decryption Passed");
+					//window.alert("Decryption is Correct for NTRUEncrypt-GPU-" + N);
+				}
+				else
+				{
+					writeToDiv("<strong>!! NTRUEncrypt-GPU-Decryption FAILED</strong>");
+					//window.alert("Decryption failed for NTRUEncrypt-GPU-" + N);
+				}
+				
+				function webglAvailable() {
+					try {
+						var canvas = document.createElement( 'canvas' );
+								canvas.id = "canvas-gpu-encryption-" + width;
+						return !!( window.WebGLRenderingContext && (
+							canvas.getContext( 'webgl' ) ||
+							canvas.getContext( 'experimental-webgl' ) )
+						);
+					} catch ( e ) {
+						return false;
+					}
+				}
+				
+				function renderTargetParams() {
+					var renderTargetParams = {
+						minFilter:THREE.LinearFilter,
+						stencilBuffer:false,
+						depthBuffer:false,
+						precision: THREE.highp,
+						type: THREE.FloatType
+					};
+					return renderTargetParams;
+				}
+
+				function geometry() {
+					var geometry = new THREE.BufferGeometry();
+
+					var vertexPositions = [
+					[-1.0, -1.0, 1.0],
+					[1.0, -1.0, 1.0],
+					[1.0, 1.0, 1.0],
+					[1.0, 1.0, 1.0],
+					[-1.0, 1.0, 1.0],
+					[-1.0, -1.0, 1.0]
+					];
+					vertices = new Float32Array(vertexPositions.length * 3); // three components per vertex
+
+					// components of the position vector for each vertex are stored
+					// contiguously in the buffer.
+					for (var i = 0; i < vertexPositions.length; i++)
+					{
+					vertices[ i * 3 + 0 ] = vertexPositions[i][0];
+					vertices[ i * 3 + 1 ] = vertexPositions[i][1];
+					vertices[ i * 3 + 2 ] = vertexPositions[i][2];
+					}
+
+					geometry.addAttribute('position', new THREE.BufferAttribute(vertices, 3));
+					geometry.addAttribute('aPosition', new THREE.BufferAttribute(vertices, 3));
+						return geometry;
+				}
+			}
+		</script>
+	</body>
+</html>
